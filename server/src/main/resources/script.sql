@@ -1,4 +1,4 @@
-CREATE TABLE companies (
+CREATE TABLE Companies (
     company_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     address VARCHAR(255),
@@ -7,9 +7,8 @@ CREATE TABLE companies (
     website VARCHAR(100)
 );
 
-CREATE TABLE cars (
+CREATE TABLE Cars (
     car_id SERIAL PRIMARY KEY,
-    make VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     year INT CHECK (year >= 1886),
     price DECIMAL(10, 2),
@@ -17,27 +16,26 @@ CREATE TABLE cars (
     company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
 );
 
-CREATE TABLE persons (
+CREATE TABLE Persons (
     person_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     birth_date DATE,
-    gender VARCHAR(10) CHECK (gender IN ('male', 'female')),
-    national_id VARCHAR(20) UNIQUE
+    gender VARCHAR(10) CHECK (gender IN ('male', 'female'))
 );
 
-CREATE TABLE users (
+CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    user_role VARCHAR(255) NOT NULL,
+    user_role VARCHAR(30) NOT NULL,
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
     address VARCHAR(255),
     person_id INT REFERENCES Person(person_id) ON DELETE SET NULL
 );
 
-CREATE TABLE orders (
+CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES "User"(user_id) ON DELETE SET NULL,
     date DATE NOT NULL,
@@ -46,7 +44,7 @@ CREATE TABLE orders (
     company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
 );
 
-CREATE TABLE services (
+CREATE TABLE Services (
     service_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -54,16 +52,15 @@ CREATE TABLE services (
     company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
 );
 
-CREATE TABLE employees (
+CREATE TABLE Employees (
     employee_id SERIAL PRIMARY KEY,
     position VARCHAR(50) NOT NULL,
-    hire_date DATE NOT NULL,
     salary DECIMAL(10, 2),
     company_id INT REFERENCES Company(company_id) ON DELETE SET NULL,
     person_id INT REFERENCES Person(person_id) ON DELETE SET NULL
 );
 
-CREATE TABLE payments (
+CREATE TABLE Payments (
     payment_id SERIAL PRIMARY KEY,
     order_id INT REFERENCES "Order"(order_id) ON DELETE CASCADE,
     amount DECIMAL(10, 2) NOT NULL,
