@@ -4,7 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.limir.dataAccessObjects.CompanyDao;
-import org.limir.models.Company;
+import org.limir.models.entities.Company;
 import org.limir.sessionFactory.HibernateSessionFactory;
 
 import java.util.List;

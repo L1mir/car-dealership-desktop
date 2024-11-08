@@ -2,7 +2,7 @@ package org.limir.services.servicesImpl;
 
 import org.limir.dataAccessObjects.CompanyDao;
 import org.limir.dataAccessObjects.daoImpl.CompanyDaoImpl;
-import org.limir.models.Company;
+import org.limir.models.entities.Company;
 import org.limir.services.CompanyService;
 
 import java.util.ArrayList;

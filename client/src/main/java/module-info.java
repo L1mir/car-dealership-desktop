@@ -11,6 +11,8 @@ module org.limir.client {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens org.limir.client to javafx.fxml;
-    exports org.limir.client;
+    opens org.limir to javafx.fxml;
+    exports org.limir;
+    exports org.limir.utility;
+    opens org.limir.utility to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package org.limir.models;
+package org.limir.models.entities;
 
 import org.limir.enums.CarStatus;
 

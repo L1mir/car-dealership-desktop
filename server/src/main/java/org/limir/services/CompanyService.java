@@ -1,6 +1,6 @@
 package org.limir.services;
 
-import org.limir.models.Company;
+import org.limir.models.entities.Company;
 
 import java.util.List;
 

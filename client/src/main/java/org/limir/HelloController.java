@@ -1,4 +1,4 @@
-package org.limir.client;
+package org.limir;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

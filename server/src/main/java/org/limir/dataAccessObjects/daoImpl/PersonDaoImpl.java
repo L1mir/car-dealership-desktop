@@ -4,7 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.limir.dataAccessObjects.PersonDao;
-import org.limir.models.Person;
+import org.limir.models.entities.Person;
 import org.limir.sessionFactory.HibernateSessionFactory;
 
 import javax.persistence.criteria.CriteriaBuilder;

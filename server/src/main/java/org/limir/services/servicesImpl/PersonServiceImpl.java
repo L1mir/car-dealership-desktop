@@ -3,7 +3,7 @@ package org.limir.services.servicesImpl;
 import org.hibernate.HibernateError;
 import org.limir.dataAccessObjects.PersonDao;
 import org.limir.dataAccessObjects.daoImpl.PersonDaoImpl;
-import org.limir.models.Person;
+import org.limir.models.entities.Person;
 import org.limir.services.PersonService;
 
 import java.util.List;

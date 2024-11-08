@@ -1,6 +1,6 @@
 package org.limir.dataAccessObjects;
 
-import org.limir.models.Person;
+import org.limir.models.entities.Person;
 
 import java.util.List;
 

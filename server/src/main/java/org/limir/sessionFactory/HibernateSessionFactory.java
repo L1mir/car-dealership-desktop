@@ -3,7 +3,7 @@ package org.limir.sessionFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.limir.models.*;
+import org.limir.models.entities.*;
 
 public class HibernateSessionFactory {
     private static SessionFactory sessionFactory;
