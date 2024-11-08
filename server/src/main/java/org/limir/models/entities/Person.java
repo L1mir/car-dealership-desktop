@@ -3,12 +3,13 @@ package org.limir.models.entities;
 import org.limir.enums.Gender;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Persons")
-public class Person {
+public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id")
@@ -20,8 +21,8 @@ public class Person {
     @Column(name = "last_name")
     private String last_name;
 
-    @Column(name = "birth_date")
-    private Date birth_date;
+    @Column(name = "age")
+    private int age;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
@@ -33,16 +34,19 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<User> users;
 
-    public Person(Long person_id, String first_name, String last_name, Date birth_date, Gender gender) {
+    public Person() {
+
+    }
+
+    public Person(Long person_id, String first_name, String last_name,
+                  int age, Gender gender, List<Employee> employees, List<User> users) {
         this.person_id = person_id;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.birth_date = birth_date;
+        this.age = age;
         this.gender = gender;
-    }
-
-    public Person() {
-
+        this.employees = employees;
+        this.users = users;
     }
 
     public Long getPerson_id() {
@@ -69,12 +73,12 @@ public class Person {
         this.last_name = last_name;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public int getAge() {
+        return age;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public Gender getGender() {
@@ -83,5 +87,34 @@ public class Person {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "person_id=" + person_id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", age=" + age +
+                ", gender=" + gender +
+                ", employees=" + employees +
+                ", users=" + users +
+                '}';
     }
 }

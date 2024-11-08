@@ -25,14 +25,16 @@ public class Employee {
     @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
     private Person person;
 
-    public Employee(Long employee_id, String position, BigDecimal salary) {
+    public Employee() {
+
+    }
+
+    public Employee(Long employee_id, String position, BigDecimal salary, Company company, Person person) {
         this.employee_id = employee_id;
         this.position = position;
         this.salary = salary;
-    }
-
-    public Employee() {
-
+        this.company = company;
+        this.person = person;
     }
 
     public Long getEmployee_id() {
@@ -57,5 +59,32 @@ public class Employee {
 
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employee_id=" + employee_id +
+                ", position='" + position + '\'' +
+                ", salary=" + salary +
+                ", company=" + company +
+                ", person=" + person +
+                '}';
     }
 }

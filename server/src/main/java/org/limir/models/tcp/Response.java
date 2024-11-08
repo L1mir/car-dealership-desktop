@@ -1,7 +1,6 @@
 package org.limir.models.tcp;
 
 import org.limir.enums.ResponseStatus;
-import sun.security.provider.certpath.OCSPResponse;
 
 public class Response {
     private ResponseStatus responseStatus;

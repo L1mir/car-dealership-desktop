@@ -33,16 +33,18 @@ public class Car {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    public Car(Long car_id, String model, int year, BigDecimal price, CarStatus car_status) {
+    public Car() {
+
+    }
+
+    public Car(Long car_id, String model, int year, BigDecimal price, CarStatus car_status, CarStatus carStatus, Company company) {
         this.car_id = car_id;
         this.model = model;
         this.year = year;
         this.price = price;
         this.car_status = car_status;
-    }
-
-    public Car() {
-
+        this.carStatus = carStatus;
+        this.company = company;
     }
 
     public Long getCar_id() {
@@ -77,11 +79,40 @@ public class Car {
         this.price = price;
     }
 
-    public CarStatus getCarStatus() {
+    public CarStatus getCar_status() {
         return car_status;
     }
 
-    public void setCarStatus(CarStatus car_status) {
+    public void setCar_status(CarStatus car_status) {
         this.car_status = car_status;
+    }
+
+    public CarStatus getCarStatus() {
+        return carStatus;
+    }
+
+    public void setCarStatus(CarStatus carStatus) {
+        this.carStatus = carStatus;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "car_id=" + car_id +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", price=" + price +
+                ", car_status=" + car_status +
+                ", carStatus=" + carStatus +
+                ", company=" + company +
+                '}';
     }
 }

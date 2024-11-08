@@ -36,15 +36,19 @@ public class Order {
     @JoinColumn(name = "company_id", referencedColumnName = "compant_id", nullable = false)
     private Company company;
 
-    public Order(Long order_id, Date date, OrderStatus order_status, BigDecimal total_price) {
+    public Order() {
+
+    }
+
+    public Order(Long order_id, Date date, OrderStatus order_status,
+                 BigDecimal total_price, List<Payment> payments, User user, Company company) {
         this.order_id = order_id;
         this.date = date;
         this.order_status = order_status;
         this.total_price = total_price;
-    }
-
-    public Order() {
-
+        this.payments = payments;
+        this.user = user;
+        this.company = company;
     }
 
     public Long getOrder_id() {
@@ -63,12 +67,12 @@ public class Order {
         this.date = date;
     }
 
-    public OrderStatus getOrderStatus() {
+    public OrderStatus getOrder_status() {
         return order_status;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.order_status = orderStatus;
+    public void setOrder_status(OrderStatus order_status) {
+        this.order_status = order_status;
     }
 
     public BigDecimal getTotal_price() {
@@ -77,5 +81,42 @@ public class Order {
 
     public void setTotal_price(BigDecimal total_price) {
         this.total_price = total_price;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "order_id=" + order_id +
+                ", date=" + date +
+                ", order_status=" + order_status +
+                ", total_price=" + total_price +
+                ", payments=" + payments +
+                ", user=" + user +
+                ", company=" + company +
+                '}';
     }
 }

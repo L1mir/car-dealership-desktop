@@ -1,6 +1,7 @@
 package org.limir.utility;
 
 import com.google.gson.Gson;
+import org.limir.models.entities.Person;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
 import org.limir.services.CompanyService;
@@ -42,9 +43,11 @@ public class ClientThread implements Runnable {
 
                 request = gson.fromJson(message, Request.class);
 
-//                switch () { TODO
-//
-//                }
+                switch (request.getRequestType()) {
+                    case REGISTER:
+                        Person person = gson.fromJson(request.getRequestMessage(), Person.class);
+                        personService.addPerson(person);
+                }
 
             }
         } catch (IOException e) {

@@ -10,6 +10,7 @@ module org.limir.client {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires com.google.gson;
 
     opens org.limir to javafx.fxml;
     exports org.limir;

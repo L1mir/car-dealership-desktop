@@ -1,10 +1,12 @@
 package org.limir.models.tcp;
 
+import org.limir.enums.RequestType;
+
 public class Request {
-    private String requestType;
+    private RequestType requestType;
     private String requestMessage;
 
-    public Request(String requestType, String requestMessage) {
+    public Request(RequestType requestType, String requestMessage) {
         this.requestType = requestType;
         this.requestMessage = requestMessage;
     }
@@ -13,11 +15,11 @@ public class Request {
 
     }
 
-    public String getRequestType() {
+    public RequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(String requestType) {
+    public void setRequestType(RequestType requestType) {
         this.requestType = requestType;
     }
 

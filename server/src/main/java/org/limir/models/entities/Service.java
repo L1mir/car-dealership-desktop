@@ -35,6 +35,14 @@ public class Service {
 
     }
 
+    public Service(Long service_id, String name, String description, BigDecimal price, Company company) {
+        this.service_id = service_id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.company = company;
+    }
+
     public Long getService_id() {
         return service_id;
     }
@@ -65,5 +73,24 @@ public class Service {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "service_id=" + service_id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", company=" + company +
+                '}';
     }
 }

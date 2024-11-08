@@ -41,16 +41,20 @@ public class Payment {
     @JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
     private Company company;
 
-    public Payment(Long order_id, BigDecimal amount, Date date, PaymentMethod payment_method, PaymentStatus payment_status) {
+    public Payment() {
+
+    }
+
+    public Payment(Long order_id, BigDecimal amount, Date date, PaymentMethod payment_method,
+                   PaymentStatus payment_status, Order order, User user, Company company) {
         this.order_id = order_id;
         this.amount = amount;
         this.date = date;
         this.payment_method = payment_method;
         this.payment_status = payment_status;
-    }
-
-    public Payment() {
-
+        this.order = order;
+        this.user = user;
+        this.company = company;
     }
 
     public Long getOrder_id() {
@@ -77,19 +81,57 @@ public class Payment {
         this.date = date;
     }
 
-    public PaymentMethod getPaymentMethod() {
+    public PaymentMethod getPayment_method() {
         return payment_method;
     }
 
-    public void setPaymentMethod(PaymentMethod payment_method) {
+    public void setPayment_method(PaymentMethod payment_method) {
         this.payment_method = payment_method;
     }
 
-    public PaymentStatus getPaymentStatus() {
+    public PaymentStatus getPayment_status() {
         return payment_status;
     }
 
-    public void setPaymentStatus(PaymentStatus payment_status) {
+    public void setPayment_status(PaymentStatus payment_status) {
         this.payment_status = payment_status;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "order_id=" + order_id +
+                ", amount=" + amount +
+                ", date=" + date +
+                ", payment_method=" + payment_method +
+                ", payment_status=" + payment_status +
+                ", order=" + order +
+                ", user=" + user +
+                ", company=" + company +
+                '}';
     }
 }
