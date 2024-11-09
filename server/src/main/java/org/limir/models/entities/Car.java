@@ -22,7 +22,7 @@ public class Car {
     @Column(name = "price")
     BigDecimal price;
 
-    @Column(name = "car_status")
+    @Column(name = "car_status", insertable = false, updatable = false)
     CarStatus car_status;
 
     @Enumerated(EnumType.STRING)

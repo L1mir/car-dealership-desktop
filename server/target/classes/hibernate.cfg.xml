@@ -24,13 +24,13 @@
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.useUnicode">true</property>
 
-        <mapping class="org.limir.models.Car"/>
-        <mapping class="org.limir.models.Company"/>
-        <mapping class="org.limir.models.Employee"/>
-        <mapping class="org.limir.models.Order"/>
-        <mapping class="org.limir.models.Payment"/>
-        <mapping class="org.limir.models.Person"/>
-        <mapping class="org.limir.models.Service"/>
-        <mapping class="org.limir.models.User"/>
+        <mapping class="org.limir.models.entities.Car"/>
+        <mapping class="org.limir.models.entities.Company"/>
+        <mapping class="org.limir.models.entities.Employee"/>
+        <mapping class="org.limir.models.entities.Order"/>
+        <mapping class="org.limir.models.entities.Payment"/>
+        <mapping class="org.limir.models.entities.Person"/>
+        <mapping class="org.limir.models.entities.Service"/>
+        <mapping class="org.limir.models.entities.User"/>
     </session-factory>
 </hibernate-configuration>

@@ -12,16 +12,16 @@ CREATE TABLE Cars (
     model VARCHAR(50) NOT NULL,
     year INT CHECK (year >= 1886),
     price DECIMAL(10, 2),
-    car_status VARCHAR(20) CHECK (status IN ('available', 'sold')),
-    company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
+    car_status VARCHAR(20) CHECK (car_status IN ('available', 'sold')),
+    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Persons (
     person_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    birth_date DATE,
-    gender VARCHAR(10) CHECK (gender IN ('male', 'female'))
+    age INT,
+    gender VARCHAR(10) CHECK (gender IN ('MALE', 'FEMALE'))
 );
 
 CREATE TABLE Users (
@@ -32,16 +32,16 @@ CREATE TABLE Users (
     email VARCHAR(100) UNIQUE,
     phone VARCHAR(20),
     address VARCHAR(255),
-    person_id INT REFERENCES Person(person_id) ON DELETE SET NULL
+    person_id INT REFERENCES Persons(person_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES "User"(user_id) ON DELETE SET NULL,
+    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
     date DATE NOT NULL,
-    order_status VARCHAR(20) CHECK (status IN ('processing', 'completed', 'canceled')),
+    order_status VARCHAR(20) CHECK (order_status IN ('processing', 'completed', 'canceled')),
     total_price DECIMAL(10, 2),
-    company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
+    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Services (
@@ -49,24 +49,24 @@ CREATE TABLE Services (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
-    company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
+    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Employees (
     employee_id SERIAL PRIMARY KEY,
     position VARCHAR(50) NOT NULL,
     salary DECIMAL(10, 2),
-    company_id INT REFERENCES Company(company_id) ON DELETE SET NULL,
-    person_id INT REFERENCES Person(person_id) ON DELETE SET NULL
+    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL,
+    person_id INT REFERENCES Persons(person_id) ON DELETE SET NULL
 );
 
 CREATE TABLE Payments (
     payment_id SERIAL PRIMARY KEY,
-    order_id INT REFERENCES "Order"(order_id) ON DELETE CASCADE,
+    order_id INT REFERENCES Orders(order_id) ON DELETE CASCADE,
     amount DECIMAL(10, 2) NOT NULL,
     date DATE NOT NULL,
-    payment_method VARCHAR(20) CHECK (method IN ('cash', 'card', 'credit')),
-    payment_status VARCHAR(20) CHECK (status IN ('processed', 'canceled')),
-    user_id INT REFERENCES "User"(user_id) ON DELETE SET NULL,
-    company_id INT REFERENCES Company(company_id) ON DELETE SET NULL
+    payment_method VARCHAR(20) CHECK (payment_method IN ('cash', 'card', 'credit')),
+    payment_status VARCHAR(20) CHECK (payment_status IN ('processed', 'canceled')),
+    user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
+    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
 );

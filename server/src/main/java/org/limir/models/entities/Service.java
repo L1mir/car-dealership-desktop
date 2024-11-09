@@ -28,7 +28,7 @@ public class Service {
     }
 
     @ManyToOne
-    @JoinColumn(name = "service_id")
+    @JoinColumn(name = "service_id", insertable = false, updatable = false)
     private Company company;
 
     public Service() {

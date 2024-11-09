@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Main {
+public class Server {
     private static final int PORT_NUMBER = 5555;
     private static ServerSocket serverSocket;
 

@@ -7,6 +7,7 @@ import org.limir.models.entities.Person;
 import org.limir.models.entities.User;
 import org.limir.models.enums.Gender;
 import org.limir.models.enums.RequestType;
+import org.limir.models.enums.UserRole;
 import org.limir.models.tcp.Request;
 import org.limir.utility.ClientSocket;
 import com.google.gson.GsonBuilder;
@@ -23,7 +24,7 @@ public class Register {
     public RadioButton radioButtonFemale;
     public TextField textFieldEmail;
     public TextField textFieldPhoneNumber;
-    public TextField textFieldAddress; // Если нужно поле для адреса
+    public TextField textFieldAddress;
     public Button buttonBack;
     public Button buttonRegister;
 
@@ -37,6 +38,7 @@ public class Register {
         User user = new User();
         user.setUsername(textFieldLogin.getText());
         user.setPassword(textFieldPassword.getText());
+        user.setUser_role(UserRole.CUSTOMER);
         user.setEmail(textFieldEmail.getText());
         user.setPhone(textFieldPhoneNumber.getText());
         user.setAddress(textFieldAddress.getText());
@@ -46,27 +48,28 @@ public class Register {
         person.setLast_name(textFieldSurname.getText());
 
         Integer age = spinnerAge.getValue();
-        if (age == null) {
-            age = 18;
-        }
-        person.setAge(age);
+        person.setAge(age != null ? age : 18);
 
         if (radioButtonMale.isSelected()) {
             person.setGender(Gender.MALE);
         } else {
             person.setGender(Gender.FEMALE);
         }
-
         person.setUserData(user);
 
+        System.out.println(person.toString());
+
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        String jsonRequest = gson.toJson(person);
+        String personJson = gson.toJson(person);
 
         Request request = new Request();
-        request.setRequestMessage(jsonRequest);
+        request.setRequestMessage(personJson);
         request.setRequestType(RequestType.REGISTER);
 
-        ClientSocket.getInstance().getOut().println(request);
+        String jsonRequest = gson.toJson(request);
+        System.out.println("Отправляемый JSON запрос: " + jsonRequest);
+        ClientSocket.getInstance().getOut().println(jsonRequest);
         ClientSocket.getInstance().getOut().flush();
     }
+
 }

@@ -13,7 +13,11 @@ module org.limir.client {
     requires com.google.gson;
 
     opens org.limir to javafx.fxml;
+    opens org.limir.models.entities to com.google.gson;
+    opens org.limir.models.enums to com.google.gson;
+    opens org.limir.models.tcp to com.google.gson;
+    opens org.limir.utility to javafx.fxml;
+
     exports org.limir;
     exports org.limir.utility;
-    opens org.limir.utility to javafx.fxml;
 }

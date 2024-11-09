@@ -3,8 +3,9 @@ package org.limir.dataAccessObjects.daoImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.limir.dataAccessObjects.PersonDao;
+import org.limir.dataAccessObjects.UserDao;
 import org.limir.models.entities.Person;
+import org.limir.models.entities.User;
 import org.limir.sessionFactory.HibernateSessionFactory;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,30 +13,32 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class PersonDaoImpl implements PersonDao {
+public class UserDaoImpl implements UserDao {
+
     @Override
-    public boolean addPerson(Person person) {
+    public boolean addUser(User user) {
         boolean isAdded = false;
+
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
-            session.save(person);
+            session.save(user);
             tx.commit();
             session.close();
             isAdded = true;
-        } catch (NoClassDefFoundError e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return isAdded;
     }
 
     @Override
-    public boolean updatePerson(Person person) {
+    public boolean updateUser(User user) {
         boolean isUpdated = false;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
-            session.update(person);
+            session.update(user);
             tx.commit();
             session.close();
             isUpdated = true;
@@ -46,7 +49,7 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public boolean deletePerson(int id) {
+    public boolean deleteUser(int id) {
         boolean isDeleted = false;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -62,30 +65,30 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<Person> showPeople() {
-        List<Person> people = (List<Person>) HibernateSessionFactory
+    public List<User> showUsers() {
+        List<User> users = (List<User>) HibernateSessionFactory
                 .getSessionFactory()
                 .openSession()
-                .createQuery("FROM Persons").list();
-        return people;
+                .createQuery("FROM Users ").list();
+        return users;
     }
 
     @Override
-    public Person findPersonById(int id) {
-        Person person = null;
+    public User findUserById(int id) {
+        User user = null;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<Person> cr = cb.createQuery(Person.class);
-            Root<Person> root = cr.from(Person.class);
-            cr.select(root).where(cb.equal(root.get("personId"), id));
-            person = session.createQuery(cr).getSingleResult();
+            CriteriaQuery<User> cr = cb.createQuery(User.class);
+            Root<User> root = cr.from(User.class);
+            cr.select(root).where(cb.equal(root.get("userId"), id));
+            user = session.createQuery(cr).getSingleResult();
             tx.commit();
             session.close();
         } catch (NoClassDefFoundError e) {
             System.out.println("Exception: " + e);
         }
-        return person;
+        return user;
     }
 }

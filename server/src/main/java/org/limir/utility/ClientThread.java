@@ -6,8 +6,10 @@ import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
 import org.limir.services.CompanyService;
 import org.limir.services.PersonService;
+import org.limir.services.UserService;
 import org.limir.services.servicesImpl.CompanyServiceImpl;
 import org.limir.services.servicesImpl.PersonServiceImpl;
+import org.limir.services.servicesImpl.UserServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class ClientThread implements Runnable {
     private Response response;
 
     private PersonService personService = new PersonServiceImpl();
-    private CompanyService companyService = new CompanyServiceImpl();
+    private UserService userService = new UserServiceImpl();
 
     public ClientThread(Socket clientSocket) throws IOException {
         response = new Response();
@@ -42,11 +44,14 @@ public class ClientThread implements Runnable {
                 String message = in.readLine();
 
                 request = gson.fromJson(message, Request.class);
+                System.out.println("Отправляемый JSON запрос: " + gson.toJson(request));
 
                 switch (request.getRequestType()) {
                     case REGISTER:
                         Person person = gson.fromJson(request.getRequestMessage(), Person.class);
+                        System.out.println(person.toString());
                         personService.addPerson(person);
+                        userService.addUser(person.getUserData());
                 }
 
             }

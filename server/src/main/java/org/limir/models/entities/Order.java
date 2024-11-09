@@ -33,7 +33,7 @@ public class Order {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "compant_id", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
     private Company company;
 
     public Order() {

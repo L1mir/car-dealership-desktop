@@ -1,9 +1,13 @@
 package org.limir.models.tcp;
 
+import com.google.gson.annotations.Expose;
 import org.limir.models.enums.RequestType;
 
 public class Request {
+    @Expose
     private RequestType requestType;
+
+    @Expose
     private String requestMessage;
 
     public Request(RequestType requestType, String requestMessage) {

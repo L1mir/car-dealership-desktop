@@ -28,10 +28,10 @@ public class Person implements Serializable {
     @Column(name = "gender")
     private Gender gender;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) // Используем LAZY для загрузки
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // EAGER оставляем для orders
     private List<User> users;
 
     public Person() {
@@ -99,6 +99,14 @@ public class Person implements Serializable {
 
     public List<User> getUsers() {
         return users;
+    }
+
+    public void setUserData(User user) {
+        this.users.add(user);
+    }
+
+    public User getUserData() {
+        return users.get(0);
     }
 
     public void setUsers(List<User> users) {

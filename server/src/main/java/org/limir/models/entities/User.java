@@ -11,8 +11,8 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "person_id")
-    private Long person_id;
+    @Column(name = "user_id")
+    private Long user_id;
 
     @Column(name = "username")
     private String username;
@@ -20,7 +20,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "usesr_role")
+    @Column(name = "user_role")
     private UserRole user_role;
 
     @Column(name = "email")
@@ -46,9 +46,9 @@ public class User {
 
     }
 
-    public User(Long person_id, String username, String password, UserRole user_role, String email, String phone,
+    public User(Long user_id, String username, String password, UserRole user_role, String email, String phone,
                 String address, List<Payment> payments, List<Order> orders, Person person) {
-        this.person_id = person_id;
+        this.user_id = user_id;
         this.username = username;
         this.password = password;
         this.user_role = user_role;
@@ -60,12 +60,12 @@ public class User {
         this.person = person;
     }
 
-    public Long getPerson_id() {
-        return person_id;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setPerson_id(Long person_id) {
-        this.person_id = person_id;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
@@ -143,7 +143,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "person_id=" + person_id +
+                "user_id=" + user_id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", user_role=" + user_role +

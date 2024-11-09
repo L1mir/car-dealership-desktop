@@ -21,7 +21,7 @@ CREATE TABLE Persons (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     age INT,
-    gender VARCHAR(10) CHECK (gender IN ('male', 'female'))
+    gender VARCHAR(10) CHECK (gender IN ('MALE', 'FEMALE'))
 );
 
 CREATE TABLE Users (

@@ -11,7 +11,7 @@ import org.limir.utility.ClientSocket;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Main extends Application {
+public class Client extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         ClientSocket clientSocket = ClientSocket.getInstance();

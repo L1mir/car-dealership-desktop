@@ -1,5 +1,6 @@
 package org.limir.models.entities;
 
+import com.google.gson.annotations.Expose;
 import org.limir.models.enums.UserRole;
 
 import java.io.Serializable;
@@ -7,15 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
+    @Expose
     private Long person_id;
+
+    @Expose
     private String username;
+
+    @Expose
     private String password;
+
+    @Expose
     private UserRole user_role;
+
+    @Expose
     private String email;
+
+    @Expose
     private String phone;
+
+    @Expose
     private String address;
+
+    @Expose
     private List<Payment> payments = new ArrayList<>();
+
+    @Expose
     private List<Order> orders = new ArrayList<>();
+
+    @Expose
     private Person person;
 
     public User() {
