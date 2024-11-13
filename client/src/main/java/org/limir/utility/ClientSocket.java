@@ -1,5 +1,7 @@
 package org.limir.utility;
 
+import org.limir.models.entities.User;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -7,6 +9,7 @@ import java.net.Socket;
 
 public class ClientSocket {
     private static final ClientSocket SINGLE_INSTANCE = new ClientSocket();
+    private User user;
     private static Socket socket;
     private BufferedReader in;
     private PrintWriter out;
@@ -18,6 +21,14 @@ public class ClientSocket {
             out = new PrintWriter(socket.getOutputStream());
         } catch (Exception e) {
         }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public static ClientSocket getInstance() {

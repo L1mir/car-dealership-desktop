@@ -4,8 +4,7 @@ import org.limir.enums.Gender;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Persons")
@@ -28,18 +27,18 @@ public class Person implements Serializable {
     @Column(name = "gender")
     private Gender gender;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) // Используем LAZY для загрузки
-    private List<Employee> employees;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Employee> employees;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // EAGER оставляем для orders
-    private List<User> users;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<User> users;
 
     public Person() {
 
     }
 
     public Person(Long person_id, String first_name, String last_name,
-                  int age, Gender gender, List<Employee> employees, List<User> users) {
+                  int age, Gender gender, Set<Employee> employees, Set<User> users) {
         this.person_id = person_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -89,15 +88,15 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    public List<Employee> getEmployees() {
+    public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
+    public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
@@ -106,10 +105,10 @@ public class Person implements Serializable {
     }
 
     public User getUserData() {
-        return users.get(0);
+        return users.iterator().next();
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 
@@ -122,7 +121,6 @@ public class Person implements Serializable {
                 ", age=" + age +
                 ", gender=" + gender +
                 ", employees=" + employees +
-                ", users=" + users +
                 '}';
     }
 }

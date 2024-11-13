@@ -1,7 +1,9 @@
 package org.limir.utility;
 
 import com.google.gson.Gson;
+import org.limir.enums.ResponseStatus;
 import org.limir.models.entities.Person;
+import org.limir.models.entities.User;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
 import org.limir.services.CompanyService;
@@ -44,16 +46,37 @@ public class ClientThread implements Runnable {
                 String message = in.readLine();
 
                 request = gson.fromJson(message, Request.class);
-                System.out.println("Отправляемый JSON запрос: " + gson.toJson(request));
+                //System.out.println("Отправляемый JSON запрос: " + gson.toJson(request));
 
                 switch (request.getRequestType()) {
-                    case REGISTER:
+                    case REGISTER: {
                         Person person = gson.fromJson(request.getRequestMessage(), Person.class);
-                        System.out.println(person.toString());
+                        //System.out.println(person.toString());
+                        person.getUsers().forEach(user -> user.setPerson(person));
                         personService.addPerson(person);
-                        userService.addUser(person.getUserData());
+                        //userService.addUser(person.getUserData());
+                    }
+                    break;
+                    case LOGIN: {
+                        User user = gson.fromJson(request.getRequestMessage(), User.class);
+                        if (userService
+                                .showUsers()
+                                .stream()
+                                .anyMatch(x -> x.getUsername().equalsIgnoreCase(user.getUsername()))
+                                &&
+                                userService
+                                        .showUsers()
+                                        .stream()
+                                        .anyMatch(x -> x.getPassword().equals(user.getPassword()))) {
+                            response = new Response(ResponseStatus.OK, "Готово!", gson.toJson(user));
+                        } else {
+                            response = new Response(ResponseStatus.ERROR, "Такого пользователя не существует или неправильный пароль!", "");
+                        }
+                        break;
+                    }
                 }
-
+                out.println(gson.toJson(response));
+                out.flush();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

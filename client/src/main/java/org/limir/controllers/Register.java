@@ -1,4 +1,4 @@
-package org.limir;
+package org.limir.controllers;
 
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
@@ -35,6 +35,10 @@ public class Register {
     }
 
     public void signUpPressed(ActionEvent actionEvent) throws IOException {
+        Person person = new Person();
+        person.setFirst_name(textFieldName.getText());
+        person.setLast_name(textFieldSurname.getText());
+
         User user = new User();
         user.setUsername(textFieldLogin.getText());
         user.setPassword(textFieldPassword.getText());
@@ -42,10 +46,6 @@ public class Register {
         user.setEmail(textFieldEmail.getText());
         user.setPhone(textFieldPhoneNumber.getText());
         user.setAddress(textFieldAddress.getText());
-
-        Person person = new Person();
-        person.setFirst_name(textFieldName.getText());
-        person.setLast_name(textFieldSurname.getText());
 
         Integer age = spinnerAge.getValue();
         person.setAge(age != null ? age : 18);
@@ -57,7 +57,7 @@ public class Register {
         }
         person.setUserData(user);
 
-        System.out.println(person.toString());
+        //System.out.println(person.toString());
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String personJson = gson.toJson(person);
@@ -67,7 +67,7 @@ public class Register {
         request.setRequestType(RequestType.REGISTER);
 
         String jsonRequest = gson.toJson(request);
-        System.out.println("Отправляемый JSON запрос: " + jsonRequest);
+        //System.out.println("Отправляемый JSON запрос: " + jsonRequest);
         ClientSocket.getInstance().getOut().println(jsonRequest);
         ClientSocket.getInstance().getOut().flush();
     }

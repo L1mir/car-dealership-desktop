@@ -20,4 +20,6 @@ module org.limir.client {
 
     exports org.limir;
     exports org.limir.utility;
+    exports org.limir.controllers;
+    opens org.limir.controllers to javafx.fxml;
 }

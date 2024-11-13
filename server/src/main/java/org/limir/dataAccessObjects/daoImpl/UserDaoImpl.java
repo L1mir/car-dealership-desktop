@@ -69,7 +69,7 @@ public class UserDaoImpl implements UserDao {
         List<User> users = (List<User>) HibernateSessionFactory
                 .getSessionFactory()
                 .openSession()
-                .createQuery("FROM Users ").list();
+                .createQuery("FROM User ").list();
         return users;
     }
 

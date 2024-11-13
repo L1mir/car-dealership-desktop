@@ -4,8 +4,8 @@ import com.google.gson.annotations.Expose;
 import org.limir.models.enums.Gender;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Person implements Serializable {
     @Expose
@@ -24,22 +24,21 @@ public class Person implements Serializable {
     private Gender gender;
 
     @Expose
-    private List<Employee> employees;
+    private Set<Employee> employees = new HashSet<>();
 
     @Expose
-    private List<User> users;
+    private Set<User> users = new HashSet<>();
 
     public Person() {
-        this.users = new ArrayList<>();
-        this.employees = new ArrayList<>();
+
     }
 
-    public Person(Long person_id, String first_name, String last_name,
-                  int age, Gender gender, List<Employee> employees, List<User> users) {
+    public Person(Long person_id, String first_name, int age, String last_name,
+                  Gender gender, Set<Employee> employees, Set<User> users) {
         this.person_id = person_id;
         this.first_name = first_name;
-        this.last_name = last_name;
         this.age = age;
+        this.last_name = last_name;
         this.gender = gender;
         this.employees = employees;
         this.users = users;
@@ -85,19 +84,19 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    public List<Employee> getEmployees() {
+    public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
+    public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

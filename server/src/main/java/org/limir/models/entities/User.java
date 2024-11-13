@@ -3,8 +3,8 @@ package org.limir.models.entities;
 import org.limir.enums.UserRole;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -33,10 +33,10 @@ public class User {
     private String address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Payment> payments = new ArrayList<>();
+    private Set<Payment> payments = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Order> orders = new ArrayList<>();
+    private Set<Order> orders = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "person_id")
@@ -47,7 +47,7 @@ public class User {
     }
 
     public User(Long user_id, String username, String password, UserRole user_role, String email, String phone,
-                String address, List<Payment> payments, List<Order> orders, Person person) {
+                String address, Set<Payment> payments, Set<Order> orders, Person person) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
@@ -116,19 +116,19 @@ public class User {
         this.address = address;
     }
 
-    public List<Payment> getPayments() {
+    public Set<Payment> getPayments() {
         return payments;
     }
 
-    public void setPayments(List<Payment> payments) {
+    public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
 
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 
@@ -152,7 +152,6 @@ public class User {
                 ", address='" + address + '\'' +
                 ", payments=" + payments +
                 ", orders=" + orders +
-                ", person=" + person +
                 '}';
     }
 }
