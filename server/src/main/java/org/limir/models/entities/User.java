@@ -1,6 +1,7 @@
 package org.limir.models.entities;
 
 import org.limir.enums.UserRole;
+import org.limir.models.dto.UserDTO;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ public class User {
     private String password;
 
     @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     private UserRole user_role;
 
     @Column(name = "email")
@@ -59,6 +61,17 @@ public class User {
         this.orders = orders;
         this.person = person;
     }
+
+    public UserDTO toDTO() {
+        return new UserDTO(
+                this.username,
+                this.email,
+                this.phone,
+                this.address,
+                this.user_role
+        );
+    }
+
 
     public Long getUser_id() {
         return user_id;

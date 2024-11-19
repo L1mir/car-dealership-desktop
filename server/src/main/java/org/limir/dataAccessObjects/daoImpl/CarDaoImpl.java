@@ -3,20 +3,20 @@ package org.limir.dataAccessObjects.daoImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.limir.dataAccessObjects.CompanyDao;
-import org.limir.models.entities.Company;
+import org.limir.dataAccessObjects.CarDao;
+import org.limir.models.entities.Car;
 import org.limir.sessionFactory.HibernateSessionFactory;
 
 import java.util.List;
 
-public class CompanyDaoImpl implements CompanyDao {
+public class CarDaoImpl implements CarDao {
     @Override
-    public boolean addCompany(Company company) {
+    public boolean addCar(Car car) {
         boolean isAdded = false;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            session.save(company);
+            session.save(car);
             transaction.commit();
             session.close();
             isAdded = true;
@@ -27,12 +27,12 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public boolean updateCompany(Company company) {
+    public boolean updateCar(Car car) {
         boolean isUpdated = false;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            session.update(company);
+            session.update(car);
             transaction.commit();
             session.close();
             isUpdated = true;
@@ -43,14 +43,14 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public boolean deleteCompany(int id) {
+    public boolean deleteCar(int id) {
         boolean isDeleted = false;
         Transaction tx = null;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            Company company = session.get(Company.class, id);
-            if (company != null) {
-                session.delete(company);
+            Car car = session.get(Car.class, id);
+            if (car != null) {
+                session.delete(car);
                 isDeleted = true;
             }
             tx.commit();
@@ -62,33 +62,33 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public List<Company> showCompanies() {
-        List<Company> companies = (List<Company>) HibernateSessionFactory.getSessionFactory().openSession().createQuery("from Company").list();
-        return companies;
+    public List<Car> showCars() {
+        List<Car> cars = (List<Car>) HibernateSessionFactory.getSessionFactory().openSession().createQuery("from Company").list();
+        return cars;
     }
 
     @Override
-    public Company findCompanyById(int id) {
-        Company company = null;
+    public Car findCarById(int id) {
+        Car car = null;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
-            company = session.get(Company.class, id);
+            car = session.get(Car.class, id);
         } catch (HibernateException e) {
             System.out.println("Exception: " + e);
         }
-        return company;
+        return car;
     }
 
     @Override
-    public Company findCompanyByName(String name) {
-        Company company = null;
+    public Car findCarByName(String name) {
+        Car car = null;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            company = session.createQuery("FROM Companies WHERE company_name = :name", Company.class)
+            car = session.createQuery("FROM Cars WHERE company_name = :name", Car.class)
                     .setParameter("name", name)
                     .uniqueResult();
         } catch (HibernateException e) {
             System.out.println("Exception: " + e);
         }
-        return company;
+        return car;
     }
 }

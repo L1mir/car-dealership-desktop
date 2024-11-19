@@ -57,8 +57,6 @@ public class Register {
         }
         person.setUserData(user);
 
-        //System.out.println(person.toString());
-
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String personJson = gson.toJson(person);
 
@@ -67,7 +65,7 @@ public class Register {
         request.setRequestType(RequestType.REGISTER);
 
         String jsonRequest = gson.toJson(request);
-        //System.out.println("Отправляемый JSON запрос: " + jsonRequest);
+
         ClientSocket.getInstance().getOut().println(jsonRequest);
         ClientSocket.getInstance().getOut().flush();
     }

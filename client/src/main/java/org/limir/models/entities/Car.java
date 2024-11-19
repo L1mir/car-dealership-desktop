@@ -9,21 +9,19 @@ public class Car {
     private String model;
     private int year;
     BigDecimal price;
-    CarStatus car_status;
-    private CarStatus carStatus;
+    CarStatus car_status;;
     private Company company;
 
     public Car() {
 
     }
 
-    public Car(Long car_id, String model, int year, BigDecimal price, CarStatus car_status, CarStatus carStatus, Company company) {
+    public Car(Long car_id, String model, int year, BigDecimal price, CarStatus car_status, Company company) {
         this.car_id = car_id;
         this.model = model;
         this.year = year;
         this.price = price;
         this.car_status = car_status;
-        this.carStatus = carStatus;
         this.company = company;
     }
 
@@ -67,14 +65,6 @@ public class Car {
         this.car_status = car_status;
     }
 
-    public CarStatus getCarStatus() {
-        return carStatus;
-    }
-
-    public void setCarStatus(CarStatus carStatus) {
-        this.carStatus = carStatus;
-    }
-
     public Company getCompany() {
         return company;
     }
@@ -91,7 +81,6 @@ public class Car {
                 ", year=" + year +
                 ", price=" + price +
                 ", car_status=" + car_status +
-                ", carStatus=" + carStatus +
                 ", company=" + company +
                 '}';
     }

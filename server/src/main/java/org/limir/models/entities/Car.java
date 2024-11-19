@@ -22,12 +22,9 @@ public class Car {
     @Column(name = "price")
     BigDecimal price;
 
-    @Column(name = "car_status", insertable = false, updatable = false)
-    CarStatus car_status;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "car_status")
-    private CarStatus carStatus;
+    CarStatus car_status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
@@ -37,13 +34,12 @@ public class Car {
 
     }
 
-    public Car(Long car_id, String model, int year, BigDecimal price, CarStatus car_status, CarStatus carStatus, Company company) {
+    public Car(Long car_id, String model, int year, BigDecimal price, CarStatus car_status, Company company) {
         this.car_id = car_id;
         this.model = model;
         this.year = year;
         this.price = price;
         this.car_status = car_status;
-        this.carStatus = carStatus;
         this.company = company;
     }
 
@@ -87,14 +83,6 @@ public class Car {
         this.car_status = car_status;
     }
 
-    public CarStatus getCarStatus() {
-        return carStatus;
-    }
-
-    public void setCarStatus(CarStatus carStatus) {
-        this.carStatus = carStatus;
-    }
-
     public Company getCompany() {
         return company;
     }
@@ -111,7 +99,7 @@ public class Car {
                 ", year=" + year +
                 ", price=" + price +
                 ", car_status=" + car_status +
-                ", carStatus=" + carStatus +
+                ", car_status=" + car_status +
                 ", company=" + company +
                 '}';
     }

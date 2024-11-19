@@ -12,7 +12,7 @@ CREATE TABLE Cars (
     model VARCHAR(50) NOT NULL,
     year INT CHECK (year >= 1886),
     price DECIMAL(10, 2),
-    car_status VARCHAR(20) CHECK (car_status IN ('available', 'sold')),
+    car_status VARCHAR(20) CHECK (car_status IN ('AVAILABLE', 'SOLD')),
     company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
 );
 
@@ -61,14 +61,15 @@ CREATE TABLE Employees (
 );
 
 CREATE TABLE Payments (
-    payment_id SERIAL PRIMARY KEY,
-    order_id INT REFERENCES Orders(order_id) ON DELETE CASCADE,
+    payment_id SERIAL,
+    order_id INT NOT NULL REFERENCES Orders(order_id) ON DELETE CASCADE,
     amount DECIMAL(10, 2) NOT NULL,
     date DATE NOT NULL,
     payment_method VARCHAR(20) CHECK (payment_method IN ('cash', 'card', 'credit')),
     payment_status VARCHAR(20) CHECK (payment_status IN ('processed', 'canceled')),
     user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
-    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
+    company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL,
+    PRIMARY KEY (payment_id, order_id)
 );
 
 --TRUNCATE

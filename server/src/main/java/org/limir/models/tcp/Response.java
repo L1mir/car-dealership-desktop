@@ -5,16 +5,16 @@ import org.limir.enums.ResponseStatus;
 public class Response {
     private ResponseStatus responseStatus;
     private String responseMessage;
-    private String responseDate;
+    private String responseData;
 
     public Response () {
 
     }
 
-    public Response(ResponseStatus responseStatus, String responseMessage, String responseDate) {
+    public Response(ResponseStatus responseStatus, String responseMessage, String responseData) {
         this.responseStatus = responseStatus;
         this.responseMessage = responseMessage;
-        this.responseDate = responseDate;
+        this.responseData = responseData;
     }
 
     public ResponseStatus getResponseStatus() {
@@ -33,11 +33,11 @@ public class Response {
         this.responseMessage = responseMessage;
     }
 
-    public String getResponseDate() {
-        return responseDate;
+    public String getResponseData() {
+        return responseData;
     }
 
-    public void setResponseDate(String responseDate) {
-        this.responseDate = responseDate;
+    public void setResponseData(String responseData) {
+        this.responseData = responseData;
     }
 }

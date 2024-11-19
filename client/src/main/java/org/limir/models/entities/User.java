@@ -1,11 +1,13 @@
 package org.limir.models.entities;
 
 import com.google.gson.annotations.Expose;
+import org.limir.models.dto.UserDTO;
 import org.limir.models.enums.UserRole;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class User implements Serializable {
     @Expose
@@ -54,6 +56,23 @@ public class User implements Serializable {
         this.payments = payments;
         this.orders = orders;
         this.person = person;
+    }
+
+    public UserDTO toDTO() {
+        return new UserDTO(
+                this.username,
+                this.email,
+                this.phone,
+                this.address,
+                this.user_role
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(person_id, user.person_id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && user_role == user.user_role && Objects.equals(email, user.email) && Objects.equals(phone, user.phone) && Objects.equals(address, user.address) && Objects.equals(payments, user.payments) && Objects.equals(orders, user.orders) && Objects.equals(person, user.person);
     }
 
     public Long getPerson_id() {
