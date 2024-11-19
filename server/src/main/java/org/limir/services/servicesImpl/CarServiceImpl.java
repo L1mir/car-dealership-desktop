@@ -56,13 +56,13 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<Car> showCars() {
-        List<Car> companies = new ArrayList<>();
+        List<Car> cars = new ArrayList<>();
         try {
-            companies = carDao.showCars();
+            cars = carDao.showCars();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return companies;
+        return cars;
     }
 
     @Override

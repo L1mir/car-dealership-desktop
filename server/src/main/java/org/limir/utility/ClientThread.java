@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientThread implements Runnable {
     private Socket clientSocket;
@@ -87,6 +88,15 @@ public class ClientThread implements Runnable {
                     case ADD_CAR: {
                         Car car = gson.fromJson(request.getRequestMessage(), Car.class);
                         carService.addCar(car);
+                        break;
+                    }
+                    case READ_CAR: {
+                        List<Car> cars = carService.showCars();
+                        response = new Response(
+                                ResponseStatus.OK,
+                                "Список машин из бд",
+                                gson.toJson(cars)
+                        );
                         break;
                     }
 

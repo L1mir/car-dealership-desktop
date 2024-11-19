@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import javafx.scene.control.TextField?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
-   <TextField text="fasdf" layoutX="163.0" layoutY="138.0"/>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.ViewCars">
+   <children>
+      <Label layoutX="106.0" layoutY="106.0" text="Каталог автомобилей" />
+      <TableView fx:id="carTable" layoutX="113.0" layoutY="401.0" prefHeight="74.0" prefWidth="494.0">
+        <columns>
+          <TableColumn fx:id="carModelColumn" prefWidth="145.5999755859375" text="Model" />
+          <TableColumn fx:id="carYearColumn" minWidth="0.0" prefWidth="81.60003662109375" text="Year" />
+            <TableColumn fx:id="carPriceColumn" text="Price" />
+            <TableColumn fx:id="carStatusColumn" prefWidth="74.39996337890625" text="Status" />
+            <TableColumn fx:id="carCompanyColumn" prefWidth="111.19998779296873" text="Company" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>

@@ -11,9 +11,10 @@ module org.limir.client {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires com.google.gson;
+    requires java.desktop;
 
     opens org.limir to javafx.fxml;
-    opens org.limir.models.entities to com.google.gson;
+    opens org.limir.models.entities to  javafx.base, com.google.gson;
     opens org.limir.models.enums to com.google.gson;
     opens org.limir.models.tcp to com.google.gson;
     opens org.limir.models.dto to com.google.gson;

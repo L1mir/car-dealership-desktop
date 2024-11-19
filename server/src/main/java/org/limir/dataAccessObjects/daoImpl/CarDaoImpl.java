@@ -61,11 +61,14 @@ public class CarDaoImpl implements CarDao {
         return isDeleted;
     }
 
-    @Override
     public List<Car> showCars() {
-        List<Car> cars = (List<Car>) HibernateSessionFactory.getSessionFactory().openSession().createQuery("from Company").list();
+        List<Car> cars = HibernateSessionFactory.getSessionFactory()
+                .openSession()
+                .createQuery("from Car", Car.class) // Имя класса, а не таблицы
+                .list();
         return cars;
     }
+
 
     @Override
     public Car findCarById(int id) {
