@@ -132,11 +132,11 @@ public class Company {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
-                ", cars=" + cars +
-                ", orders=" + orders +
-                ", payments=" + payments +
-                ", services=" + services +
-                ", employees=" + employees +
+                ", cars_count=" + (cars != null ? cars.size() : 0) +
+                ", orders_count=" + (orders != null ? orders.size() : 0) +
+                ", payments_count=" + (payments != null ? payments.size() : 0) +
+                ", services_count=" + (services != null ? services.size() : 0) +
+                ", employees_count=" + (employees != null ? employees.size() : 0) +
                 '}';
     }
 }

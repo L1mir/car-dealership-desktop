@@ -1,6 +1,5 @@
 package org.limir.controllers;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,14 +10,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class CarOperations {
-    @FXML
+
     private ChoiceBox<String> carOperationsChoiceBox;
+    private Button executeButton;
 
-    @FXML
-    Button executeButton;
+    public void initialize(ChoiceBox<String> carOperationsChoiceBox, Button executeButton) {
+        this.carOperationsChoiceBox = carOperationsChoiceBox;
+        this.executeButton = executeButton;
 
-    @FXML
-    public void initialize() {
         carOperationsChoiceBox.getItems().addAll(
                 "Добавить автомобиль",
                 "Редактировать автомобиль",
@@ -27,38 +26,31 @@ public class CarOperations {
         );
 
         executeButton.setOnAction(event -> {
-            try {
-                handleOperation();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            String selectedOperation = carOperationsChoiceBox.getValue();
+            if (selectedOperation == null) {
+                System.out.println("Выберите операцию!");
+                return;
+            }
+
+            switch (selectedOperation) {
+                case "Добавить автомобиль":
+                    try {
+                        addCar();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "Редактировать автомобиль":
+                    System.out.println("Редактирование автомобиля...");
+                    break;
+                case "Удалить автомобиль":
+                    System.out.println("Удаление автомобиля...");
+                    break;
+                case "Просмотреть список автомобилей":
+                    System.out.println("Просмотр списка автомобилей...");
+                    break;
             }
         });
-    }
-
-    private void handleOperation() throws IOException {
-        String selectedOperation = carOperationsChoiceBox.getValue();
-
-        if (selectedOperation == null) {
-            System.out.println("Выберите операцию!");
-            return;
-        }
-
-        switch (selectedOperation) {
-            case "Добавить автомобиль":
-                addCar();
-                break;
-            case "Редактировать автомобиль":
-                // TODO editCar();
-                break;
-            case "Удалить автомобиль":
-                // TODO deleteCar();
-                break;
-            case "Просмотреть список автомобилей":
-                // TODO viewCars();
-                break;
-            default:
-                System.out.println("Неизвестная операция: " + selectedOperation);
-        }
     }
 
     private void addCar() throws IOException {

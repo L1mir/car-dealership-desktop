@@ -5,10 +5,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.CarOperations">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.AdminMenu">
    <children>
       <ChoiceBox fx:id="carOperationsChoiceBox" layoutX="91.0" layoutY="119.0" prefWidth="150.0" />
       <Label layoutX="101.0" layoutY="95.0" text="Car Operations" />
-      <Button fx:id="executeButton" layoutX="257.0" layoutY="119.0" mnemonicParsing="false" text="Execute" />
+      <Button fx:id="carExecuteButton" layoutX="257.0" layoutY="119.0" mnemonicParsing="false" text="Execute Car" />
+
+      <ChoiceBox fx:id="companyOperationsChoiceBox" layoutX="91.0" layoutY="207.0" prefWidth="150.0" />
+      <Label layoutX="101.0" layoutY="183.0" text="Company Operations" />
+      <Button fx:id="companyExecuteButton" layoutX="257.0" layoutY="207.0" mnemonicParsing="false" text="Execute Company" />
    </children>
 </AnchorPane>

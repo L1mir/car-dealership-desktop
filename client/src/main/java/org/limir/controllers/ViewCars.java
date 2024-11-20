@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.limir.models.dto.CarDTO;
 import org.limir.models.entities.Car;
 import org.limir.models.entities.Company;
 import org.limir.models.enums.CarStatus;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class ViewCars {
     @FXML
-    private TableView<Car> carTable;
+    private TableView<CarDTO> carTable;
 
     @FXML
     private TableColumn<Car, String> carModelColumn;
@@ -35,18 +36,18 @@ public class ViewCars {
     private TableColumn<Car, BigDecimal> carPriceColumn;
 
     @FXML
-    private TableColumn<Car, CarStatus> carStatusColumn;
+    private TableColumn<Car, String> carStatusColumn;
 
     @FXML
-    private TableColumn<Car, Company> carCompanyColumn;
+    private TableColumn<Car, String> carCompanyColumn;
 
     @FXML
     public void initialize() {
         carModelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
         carYearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
         carPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        carStatusColumn.setCellValueFactory(new PropertyValueFactory<>("car_status"));
-        carCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
+        carStatusColumn.setCellValueFactory(new PropertyValueFactory<>("carStatus"));
+        carCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("companyName"));
 
         try {
             loadCarsFromServer();
@@ -58,7 +59,7 @@ public class ViewCars {
 
     private void loadCarsFromServer() throws IOException {
         Request request = new Request();
-        request.setRequestType(RequestType.READ_CAR);
+        request.setRequestType(RequestType.READ_CARS);
 
         ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
         ClientSocket.getInstance().getOut().flush();
@@ -66,14 +67,14 @@ public class ViewCars {
         String answer = ClientSocket.getInstance().getIn().readLine();
         Response response = new Gson().fromJson(answer, Response.class);
 
-
         if (response.getResponseStatus() == ResponseStatus.OK) {
-            List<Car> cars = new Gson().fromJson(response.getResponseData(), new TypeToken<List<Car>>(){}.getType());
+            List<CarDTO> cars = new Gson().fromJson(response.getResponseData(), new TypeToken<List<CarDTO>>(){}.getType());
 
-            ObservableList<Car> carsObserver = FXCollections.observableArrayList(cars);
+            ObservableList<CarDTO> carsObserver = FXCollections.observableArrayList(cars);
             carTable.setItems(carsObserver);
         } else {
             System.out.println("Error loading cars: " + response.getResponseStatus());
         }
     }
+
 }

@@ -17,7 +17,7 @@ module org.limir.client {
     opens org.limir.models.entities to  javafx.base, com.google.gson;
     opens org.limir.models.enums to com.google.gson;
     opens org.limir.models.tcp to com.google.gson;
-    opens org.limir.models.dto to com.google.gson;
+    opens org.limir.models.dto to javafx.base, com.google.gson;
     opens org.limir.utility to javafx.fxml;
 
     exports org.limir;

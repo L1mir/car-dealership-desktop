@@ -7,8 +7,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.ViewCars">
    <children>
-      <Label layoutX="106.0" layoutY="106.0" text="Каталог автомобилей" />
-      <TableView fx:id="carTable" layoutX="113.0" layoutY="401.0" prefHeight="74.0" prefWidth="494.0">
+      <Label layoutX="113.0" layoutY="109.0" text="Каталог автомобилей" />
+      <TableView fx:id="carTable" layoutX="113.0" layoutY="127.0" prefHeight="348.0" prefWidth="494.0">
         <columns>
           <TableColumn fx:id="carModelColumn" prefWidth="145.5999755859375" text="Model" />
           <TableColumn fx:id="carYearColumn" minWidth="0.0" prefWidth="81.60003662109375" text="Year" />

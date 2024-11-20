@@ -61,9 +61,11 @@ public class CompanyDaoImpl implements CompanyDao {
         return isDeleted;
     }
 
-    @Override
     public List<Company> showCompanies() {
-        List<Company> companies = (List<Company>) HibernateSessionFactory.getSessionFactory().openSession().createQuery("from Company").list();
+        List<Company> companies = HibernateSessionFactory.getSessionFactory()
+                .openSession()
+                .createQuery("from Company ", Company.class)
+                .list();
         return companies;
     }
 

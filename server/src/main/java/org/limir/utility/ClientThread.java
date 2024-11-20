@@ -2,16 +2,20 @@ package org.limir.utility;
 
 import com.google.gson.Gson;
 import org.limir.enums.ResponseStatus;
+import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;
+import org.limir.models.entities.Company;
 import org.limir.models.entities.Person;
 import org.limir.models.entities.User;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
 import org.limir.services.CarService;
+import org.limir.services.CompanyService;
 import org.limir.services.PersonService;
 import org.limir.services.UserService;
 import org.limir.services.servicesImpl.CarServiceImpl;
+import org.limir.services.servicesImpl.CompanyServiceImpl;
 import org.limir.services.servicesImpl.PersonServiceImpl;
 import org.limir.services.servicesImpl.UserServiceImpl;
 
@@ -21,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClientThread implements Runnable {
     private Socket clientSocket;
@@ -33,6 +38,7 @@ public class ClientThread implements Runnable {
     private PersonService personService = new PersonServiceImpl();
     private UserService userService = new UserServiceImpl();
     private CarService carService = new CarServiceImpl();
+    private CompanyService companyService = new CompanyServiceImpl();
 
     public ClientThread(Socket clientSocket) throws IOException {
         response = new Response();
@@ -88,18 +94,40 @@ public class ClientThread implements Runnable {
                     case ADD_CAR: {
                         Car car = gson.fromJson(request.getRequestMessage(), Car.class);
                         carService.addCar(car);
-                        break;
-                    }
-                    case READ_CAR: {
-                        List<Car> cars = carService.showCars();
                         response = new Response(
                                 ResponseStatus.OK,
-                                "Список машин из бд",
-                                gson.toJson(cars)
+                                "Компания добавлена в бд"
                         );
                         break;
                     }
-
+                    case READ_CARS: {
+                        List<Car> cars = carService.showCars();
+                        List<CarDTO> carDTOs = cars.stream().map(CarDTO::new).collect(Collectors.toList());
+                        response = new Response(
+                                ResponseStatus.OK,
+                                "Список машин из бд",
+                                gson.toJson(carDTOs)
+                        );
+                        break;
+                    }
+                    case ADD_COMPANY: {
+                        Company company = gson.fromJson(request.getRequestMessage(), Company.class);
+                        companyService.addCompany(company);
+                        response = new Response(
+                                ResponseStatus.OK,
+                                "Компания добавлена в бд"
+                        );
+                        break;
+                    }
+                    case READ_COMPANY: {
+                        List<Company> companies = companyService.showCompanies();
+                        response = new Response(
+                                ResponseStatus.OK,
+                                "Список машин из бд",
+                                gson.toJson(companies)
+                        );
+                        break;
+                    }
                 }
                 out.println(gson.toJson(response));
                 out.flush();

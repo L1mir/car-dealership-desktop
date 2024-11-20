@@ -81,7 +81,8 @@ public class Car {
                 ", year=" + year +
                 ", price=" + price +
                 ", car_status=" + car_status +
-                ", company=" + company +
+                ", company_id=" + (company != null ? company.getCompany_id() : "null") +
                 '}';
     }
+
 }

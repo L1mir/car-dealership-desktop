@@ -64,7 +64,7 @@ public class CarDaoImpl implements CarDao {
     public List<Car> showCars() {
         List<Car> cars = HibernateSessionFactory.getSessionFactory()
                 .openSession()
-                .createQuery("from Car", Car.class) // Имя класса, а не таблицы
+                .createQuery("from Car", Car.class)
                 .list();
         return cars;
     }

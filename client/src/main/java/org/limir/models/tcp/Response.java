@@ -17,6 +17,11 @@ public class Response {
         this.responseData = responseData;
     }
 
+    public Response(ResponseStatus responseStatus, String responseMessage) {
+        this.responseStatus = responseStatus;
+        this.responseMessage = responseMessage;
+    }
+
     public ResponseStatus getResponseStatus() {
         return responseStatus;
     }

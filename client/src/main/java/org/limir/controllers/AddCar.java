@@ -1,27 +1,26 @@
 package org.limir.controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;
+import org.limir.models.entities.Company;
 import org.limir.models.enums.CarStatus;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
-import org.limir.models.enums.UserRole;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
 import org.limir.utility.ClientSocket;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 public class AddCar {
@@ -35,25 +34,97 @@ public class AddCar {
     private TextField priceTextField;
 
     @FXML
-    ChoiceBox<String>  carStatusChoiceBox;
+    private ChoiceBox<String> carStatusChoiceBox;
 
     @FXML
     private Button addCarButton;
 
+    @FXML
+    private ChoiceBox<String> companyNameChoiceBox;
+
     public void initialize() {
         carStatusChoiceBox.getItems().addAll("AVAILABLE", "SOLD");
+
+        try {
+            loadCompanies();
+        } catch (IOException e) {
+            System.err.println("Error loading companies: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCompanies() throws IOException {
+        Request request = new Request();
+        request.setRequestType(RequestType.READ_COMPANY);
+
+        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
+        ClientSocket.getInstance().getOut().flush();
+
+        String responseJson = ClientSocket.getInstance().getIn().readLine();
+        Response response = new Gson().fromJson(responseJson, Response.class);
+
+        if (response.getResponseStatus() == ResponseStatus.OK) {
+            List<Company> companies = new Gson().fromJson(
+                    response.getResponseData(),
+                    new TypeToken<List<Company>>() {}.getType()
+            );
+
+            ObservableList<String> companyNames = FXCollections.observableArrayList();
+            for (Company company : companies) {
+                companyNames.add(company.getName());
+            }
+            companyNameChoiceBox.setItems(companyNames);
+        } else {
+            System.err.println("Failed to load companies: " + response.getResponseStatus());
+        }
     }
 
     public void addButtonPressed(ActionEvent actionEvent) throws IOException {
         Car car = new Car();
         car.setModel(modelTextField.getText());
         car.setYear(Integer.parseInt(yearTextField.getText()));
-        BigDecimal price = new BigDecimal(priceTextField.getText());
-        car.setPrice(price);
-        if (Objects.equals(carStatusChoiceBox.getValue(), "AVAILABLE")) {
+        car.setPrice(new BigDecimal(priceTextField.getText()));
+
+        if ("AVAILABLE".equals(carStatusChoiceBox.getValue())) {
             car.setCar_status(CarStatus.AVAILABLE);
-        } else {
+        } else if ("SOLD".equals(carStatusChoiceBox.getValue())) {
             car.setCar_status(CarStatus.SOLD);
+        }
+
+        String selectedCompanyName = companyNameChoiceBox.getValue();
+        if (selectedCompanyName != null) {
+            Request companyRequest = new Request();
+            companyRequest.setRequestType(RequestType.READ_COMPANY);
+            ClientSocket.getInstance().getOut().println(new Gson().toJson(companyRequest));
+            ClientSocket.getInstance().getOut().flush();
+
+            String responseJson = ClientSocket.getInstance().getIn().readLine();
+            Response response = new Gson().fromJson(responseJson, Response.class);
+
+            if (response.getResponseStatus() == ResponseStatus.OK) {
+                List<Company> companies = new Gson().fromJson(
+                        response.getResponseData(),
+                        new TypeToken<List<Company>>() {}.getType()
+                );
+
+                Company selectedCompany = companies.stream()
+                        .filter(company -> company.getName().equals(selectedCompanyName))
+                        .findFirst()
+                        .orElse(null);
+
+                if (selectedCompany != null) {
+                    car.setCompany(selectedCompany);
+                } else {
+                    System.err.println("Компания не найдена!");
+                    return;
+                }
+            } else {
+                System.err.println("Ошибка получения компаний!");
+                return;
+            }
+        } else {
+            System.err.println("Компания не выбрана!");
+            return;
         }
 
         Request request = new Request();
@@ -63,8 +134,13 @@ public class AddCar {
         ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
         ClientSocket.getInstance().getOut().flush();
 
-        String answer = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(answer, Response.class);
+        String responseJson = ClientSocket.getInstance().getIn().readLine();
+        Response response = new Gson().fromJson(responseJson, Response.class);
 
+        if (response.getResponseStatus() == ResponseStatus.OK) {
+            System.out.println("Car added successfully!");
+        } else {
+            System.err.println("Failed to add car: " + response.getResponseStatus());
+        }
     }
 }
