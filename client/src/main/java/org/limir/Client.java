@@ -2,11 +2,10 @@ package org.limir;
 
 import javafx.application.Application;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.limir.controllers.sceneUtility.SceneInitializer;
+import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.utility.ClientSocket;
 
 import java.io.IOException;
@@ -18,9 +17,10 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws IOException {
         ClientSocket clientSocket = ClientSocket.getInstance();
         Socket socket = clientSocket.getSocket();
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        SceneManager.initialize(primaryStage);
+        SceneInitializer.initializeScenes();
+        SceneManager.showScene("login");
         primaryStage.setTitle("Car-dealership");
-        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.dto.CompanyDTO;
 import org.limir.models.entities.Car;
 import org.limir.models.entities.Company;
@@ -42,6 +43,14 @@ public class AddCar {
 
     @FXML
     private ChoiceBox<String> companyNameChoiceBox;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    public void handleBackButton(ActionEvent event) throws IOException {
+        SceneManager.showScene("admin-menu");
+    }
 
     public void initialize() {
         carStatusChoiceBox.getItems().addAll("AVAILABLE", "SOLD");

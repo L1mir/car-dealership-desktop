@@ -1,11 +1,8 @@
 package org.limir.controllers;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.stage.Stage;
+import org.limir.controllers.sceneUtility.SceneManager;
 
 import java.io.IOException;
 
@@ -53,9 +50,6 @@ public class CompanyOperations {
     }
 
     private void addCompany() throws IOException {
-        Stage stage = (Stage) executeButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/org/limir/add-company.fxml"));
-        Scene addCompanyScene = new Scene(root);
-        stage.setScene(addCompanyScene);
+        SceneManager.showScene("add-company");
     }
 }

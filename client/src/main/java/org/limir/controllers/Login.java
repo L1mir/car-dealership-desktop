@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.entities.User;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
@@ -50,16 +51,13 @@ public class Login {
             Parent root;
 
             if (loggedUserDTO.getUserRole() == UserRole.CUSTOMER) {
-                root = FXMLLoader.load(getClass().getResource("/org/limir/customer-menu.fxml"));
+                SceneManager.showScene("customer-menu");
             } else if (loggedUserDTO.getUserRole() == UserRole.ADMIN) {
-                root = FXMLLoader.load(getClass().getResource("/org/limir/admin-menu.fxml"));
+                SceneManager.showScene("admin-menu");
             } else {
                 System.out.println("Unknown user role: " + loggedUserDTO.getUserRole());
                 return;
             }
-
-            Scene newScene = new Scene(root);
-            stage.setScene(newScene);
         } else {
             System.out.println("Login failed: " + response.getResponseStatus());
         }
@@ -68,9 +66,6 @@ public class Login {
 
 
     public void registerPressed (ActionEvent event) throws IOException {
-        Stage stage = (Stage) buttonRegister.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/org/limir/register.fxml"));
-        Scene newScene = new Scene(root);
-        stage.setScene(newScene);
+        SceneManager.showScene("register");
     }
 }

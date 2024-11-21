@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.entities.Car;
-import org.limir.models.entities.Company;
-import org.limir.models.enums.CarStatus;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
 import org.limir.models.tcp.Request;
@@ -22,7 +23,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class ViewCars {
+public class CustomerMenu {
     @FXML
     private TableView<CarDTO> carTable;
 
@@ -40,6 +41,14 @@ public class ViewCars {
 
     @FXML
     private TableColumn<Car, String> carCompanyColumn;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    public void handleBackButton(ActionEvent event) throws IOException {
+        SceneManager.showScene("login");
+    }
 
     @FXML
     public void initialize() {

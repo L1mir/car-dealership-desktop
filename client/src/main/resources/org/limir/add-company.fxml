@@ -24,5 +24,6 @@
       <TextField fx:id="emailTextField" layoutX="81.0" layoutY="239.0" />
       <TextField fx:id="websiteTextField" layoutX="264.0" layoutY="178.0" />
       <Button fx:id="addCompanyButton" layoutX="281.0" layoutY="238.0" mnemonicParsing="false" onAction="#addButtonPressed" prefHeight="26.0" prefWidth="103.0" text="Добавить" />
+      <Button fx:id="backButton" layoutX="501.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
    </children>
 </AnchorPane>

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
+import org.limir.controllers.sceneUtility.SceneManager;
 
 import java.io.IOException;
 
@@ -54,9 +55,6 @@ public class CarOperations {
     }
 
     private void addCar() throws IOException {
-        Stage stage = (Stage) executeButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/org/limir/add-car.fxml"));
-        Scene addCarScene = new Scene(root);
-        stage.setScene(addCarScene);
+        SceneManager.showScene("add-car");
     }
 }

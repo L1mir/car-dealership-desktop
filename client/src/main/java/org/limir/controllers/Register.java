@@ -2,7 +2,9 @@ package org.limir.controllers;
 
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.entities.Person;
 import org.limir.models.entities.User;
 import org.limir.models.enums.Gender;
@@ -16,17 +18,34 @@ import java.io.IOException;
 
 public class Register {
     public TextField textFieldLogin;
+
     public PasswordField textFieldPassword;
+
     public TextField textFieldName;
+
     public TextField textFieldSurname;
+
     public Spinner<Integer> spinnerAge;
+
     public RadioButton radioButtonMale;
+
     public RadioButton radioButtonFemale;
+
     public TextField textFieldEmail;
+
     public TextField textFieldPhoneNumber;
+
     public TextField textFieldAddress;
-    public Button buttonBack;
+
     public Button buttonRegister;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    public void handleBackButton(ActionEvent event) throws IOException {
+        SceneManager.showScene("login");
+    }
 
     private SpinnerValueFactory<Integer> valueMarkFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 120, 18); // Установка диапазона и начального значения
 

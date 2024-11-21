@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.entities.Company;
 import org.limir.models.enums.RequestType;
 import org.limir.models.tcp.Request;
@@ -31,6 +32,14 @@ public class AddCompany {
 
     @FXML
     private Button addCompanyButton;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    public void handleBackButton(ActionEvent event) throws IOException {
+        SceneManager.showScene("admin-menu");
+    }
 
     public void addButtonPressed(ActionEvent actionEvent) throws IOException {
         Company company = new Company();
