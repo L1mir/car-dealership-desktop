@@ -6,12 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import org.limir.utility.ClientSocket;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class Client extends Application {
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         ClientSocket clientSocket = ClientSocket.getInstance();

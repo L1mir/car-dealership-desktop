@@ -23,7 +23,7 @@
       <Label layoutX="90.0" layoutY="234.0" text="Price" />
       <Label layoutX="316.0" layoutY="115.0" text="CarStatus" />
       <Button fx:id="addCarButton" layoutX="307.0" layoutY="240.0" mnemonicParsing="false" onAction="#addButtonPressed" text="Добавить" />
-      <Label layoutX="316.0" layoutY="171.0" prefHeight="18.0" prefWidth="134.0" text="Company name" />
-      <ChoiceBox fx:id="companyNameChoiceBox" layoutX="316.0" layoutY="187.0" prefWidth="150.0" />
+      <Label layoutX="316.0" layoutY="178.0" prefHeight="18.0" prefWidth="134.0" text="Company name" />
+      <ChoiceBox fx:id="companyNameChoiceBox" layoutX="308.0" layoutY="200.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

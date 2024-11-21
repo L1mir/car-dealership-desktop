@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import org.limir.models.dto.CompanyDTO;
 import org.limir.models.entities.Car;
 import org.limir.models.entities.Company;
 import org.limir.models.enums.CarStatus;
@@ -34,7 +35,7 @@ public class AddCar {
     private TextField priceTextField;
 
     @FXML
-    private ChoiceBox<String> carStatusChoiceBox;
+    ChoiceBox<String> carStatusChoiceBox;
 
     @FXML
     private Button addCarButton;
@@ -79,6 +80,7 @@ public class AddCar {
         }
     }
 
+
     public void addButtonPressed(ActionEvent actionEvent) throws IOException {
         Car car = new Car();
         car.setModel(modelTextField.getText());
@@ -95,6 +97,7 @@ public class AddCar {
         if (selectedCompanyName != null) {
             Request companyRequest = new Request();
             companyRequest.setRequestType(RequestType.READ_COMPANY);
+
             ClientSocket.getInstance().getOut().println(new Gson().toJson(companyRequest));
             ClientSocket.getInstance().getOut().flush();
 
@@ -102,17 +105,25 @@ public class AddCar {
             Response response = new Gson().fromJson(responseJson, Response.class);
 
             if (response.getResponseStatus() == ResponseStatus.OK) {
-                List<Company> companies = new Gson().fromJson(
+                List<CompanyDTO> companiesDTO = new Gson().fromJson(
                         response.getResponseData(),
-                        new TypeToken<List<Company>>() {}.getType()
+                        new TypeToken<List<CompanyDTO>>() {}.getType()
                 );
 
-                Company selectedCompany = companies.stream()
-                        .filter(company -> company.getName().equals(selectedCompanyName))
+                CompanyDTO selectedCompanyDTO = companiesDTO.stream()
+                        .filter(companyDTO -> companyDTO.getName().equals(selectedCompanyName))
                         .findFirst()
                         .orElse(null);
 
-                if (selectedCompany != null) {
+                if (selectedCompanyDTO != null) {
+                    Company selectedCompany = new Company();
+                    selectedCompany.setCompany_id(selectedCompanyDTO.getCompanyId());
+                    selectedCompany.setName(selectedCompanyDTO.getName());
+                    selectedCompany.setAddress(selectedCompanyDTO.getAddress());
+                    selectedCompany.setPhone(selectedCompanyDTO.getPhone());
+                    selectedCompany.setEmail(selectedCompanyDTO.getEmail());
+                    selectedCompany.setWebsite(selectedCompanyDTO.getWebsite());
+
                     car.setCompany(selectedCompany);
                 } else {
                     System.err.println("Компания не найдена!");

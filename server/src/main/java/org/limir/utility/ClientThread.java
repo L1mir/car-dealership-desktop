@@ -3,6 +3,7 @@ package org.limir.utility;
 import com.google.gson.Gson;
 import org.limir.enums.ResponseStatus;
 import org.limir.models.dto.CarDTO;
+import org.limir.models.dto.CompanyDTO;
 import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;
 import org.limir.models.entities.Company;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -121,10 +123,22 @@ public class ClientThread implements Runnable {
                     }
                     case READ_COMPANY: {
                         List<Company> companies = companyService.showCompanies();
+                        List<CompanyDTO> companyDTOS = new ArrayList<>();
+                        for (Company company : companies) {
+                            CompanyDTO dto = new CompanyDTO();
+                            dto.setCompanyId(company.getCompany_id());
+                            dto.setName(company.getName());
+                            dto.setAddress(company.getAddress());
+                            dto.setPhone(company.getPhone());
+                            dto.setEmail(company.getEmail());
+                            dto.setWebsite(company.getWebsite());
+
+                            companyDTOS.add(dto);
+                        }
                         response = new Response(
                                 ResponseStatus.OK,
                                 "Список машин из бд",
-                                gson.toJson(companies)
+                                gson.toJson(companyDTOS)
                         );
                         break;
                     }
