@@ -12,6 +12,7 @@ module org.limir.client {
     requires com.almasb.fxgl.all;
     requires com.google.gson;
     requires java.desktop;
+    requires annotations;
 
     opens org.limir to javafx.fxml;
     opens org.limir.models.entities to  javafx.base, com.google.gson;
@@ -24,4 +25,10 @@ module org.limir.client {
     exports org.limir.utility;
     exports org.limir.controllers;
     opens org.limir.controllers to javafx.fxml;
+    exports org.limir.controllers.car;
+    opens org.limir.controllers.car to javafx.fxml;
+    exports org.limir.controllers.company;
+    opens org.limir.controllers.company to javafx.fxml;
+    exports org.limir.controllers.auth;
+    opens org.limir.controllers.auth to javafx.fxml;
 }

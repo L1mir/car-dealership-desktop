@@ -6,9 +6,14 @@ import java.util.List;
 
 public interface CarDao {
     boolean addCar(Car car);
+
     boolean updateCar(Car car);
-    boolean deleteCar(int id);
+
+    boolean deleteCar(Long id);
+
     List<Car> showCars();
-    Car findCarById(int id);
-    Car findCarByName(String name);
+
+    Car findCarById(Long id);
+
+    Car findCarByModel(String model);
 }

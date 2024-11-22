@@ -7,7 +7,7 @@ public class Response {
     private String responseMessage;
     private String responseData;
 
-    public Response () {
+    public Response() {
 
     }
 

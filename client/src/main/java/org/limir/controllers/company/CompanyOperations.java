@@ -1,4 +1,4 @@
-package org.limir.controllers;
+package org.limir.controllers.company;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;

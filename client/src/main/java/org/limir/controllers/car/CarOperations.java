@@ -1,11 +1,7 @@
-package org.limir.controllers;
+package org.limir.controllers.car;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.stage.Stage;
 import org.limir.controllers.sceneUtility.SceneManager;
 
 import java.io.IOException;
@@ -42,10 +38,14 @@ public class CarOperations {
                     }
                     break;
                 case "Редактировать автомобиль":
-                    System.out.println("Редактирование автомобиля...");
+                    updateCar();
                     break;
                 case "Удалить автомобиль":
-                    System.out.println("Удаление автомобиля...");
+                    try {
+                        deleteCar();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "Просмотреть список автомобилей":
                     System.out.println("Просмотр списка автомобилей...");
@@ -54,7 +54,15 @@ public class CarOperations {
         });
     }
 
+    private void updateCar() {
+        SceneManager.showScene("update-car");
+    }
+
     private void addCar() throws IOException {
         SceneManager.showScene("add-car");
+    }
+
+    public void deleteCar() throws IOException {
+        SceneManager.showScene("delete-car");
     }
 }

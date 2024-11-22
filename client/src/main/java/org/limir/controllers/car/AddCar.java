@@ -1,4 +1,4 @@
-package org.limir.controllers;
+package org.limir.controllers.car;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import org.jetbrains.annotations.NotNull;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.dto.CompanyDTO;
 import org.limir.models.entities.Car;
@@ -16,14 +17,12 @@ import org.limir.models.entities.Company;
 import org.limir.models.enums.CarStatus;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
-import org.limir.models.tcp.Request;
+import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
-import org.limir.utility.ClientSocket;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 public class AddCar {
     @FXML
@@ -64,19 +63,13 @@ public class AddCar {
     }
 
     private void loadCompanies() throws IOException {
-        Request request = new Request();
-        request.setRequestType(RequestType.READ_COMPANY);
+        Response readCompaniesrResponse = RequestHandler.sendRequest(RequestType.READ_COMPANIES, null);
 
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-        ClientSocket.getInstance().getOut().flush();
-
-        String responseJson = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(responseJson, Response.class);
-
-        if (response.getResponseStatus() == ResponseStatus.OK) {
+        if (readCompaniesrResponse.getResponseStatus() == ResponseStatus.OK) {
             List<Company> companies = new Gson().fromJson(
-                    response.getResponseData(),
-                    new TypeToken<List<Company>>() {}.getType()
+                    readCompaniesrResponse.getResponseData(),
+                    new TypeToken<List<Company>>() {
+                    }.getType()
             );
 
             ObservableList<String> companyNames = FXCollections.observableArrayList();
@@ -85,7 +78,7 @@ public class AddCar {
             }
             companyNameChoiceBox.setItems(companyNames);
         } else {
-            System.err.println("Failed to load companies: " + response.getResponseStatus());
+            System.err.println("Failed to load companies: " + readCompaniesrResponse.getResponseStatus());
         }
     }
 
@@ -104,19 +97,13 @@ public class AddCar {
 
         String selectedCompanyName = companyNameChoiceBox.getValue();
         if (selectedCompanyName != null) {
-            Request companyRequest = new Request();
-            companyRequest.setRequestType(RequestType.READ_COMPANY);
+            Response companyResponse = RequestHandler.sendRequest(RequestType.READ_COMPANIES, null);
 
-            ClientSocket.getInstance().getOut().println(new Gson().toJson(companyRequest));
-            ClientSocket.getInstance().getOut().flush();
-
-            String responseJson = ClientSocket.getInstance().getIn().readLine();
-            Response response = new Gson().fromJson(responseJson, Response.class);
-
-            if (response.getResponseStatus() == ResponseStatus.OK) {
+            if (companyResponse.getResponseStatus() == ResponseStatus.OK) {
                 List<CompanyDTO> companiesDTO = new Gson().fromJson(
-                        response.getResponseData(),
-                        new TypeToken<List<CompanyDTO>>() {}.getType()
+                        companyResponse.getResponseData(),
+                        new TypeToken<List<CompanyDTO>>() {
+                        }.getType()
                 );
 
                 CompanyDTO selectedCompanyDTO = companiesDTO.stream()
@@ -125,13 +112,7 @@ public class AddCar {
                         .orElse(null);
 
                 if (selectedCompanyDTO != null) {
-                    Company selectedCompany = new Company();
-                    selectedCompany.setCompany_id(selectedCompanyDTO.getCompanyId());
-                    selectedCompany.setName(selectedCompanyDTO.getName());
-                    selectedCompany.setAddress(selectedCompanyDTO.getAddress());
-                    selectedCompany.setPhone(selectedCompanyDTO.getPhone());
-                    selectedCompany.setEmail(selectedCompanyDTO.getEmail());
-                    selectedCompany.setWebsite(selectedCompanyDTO.getWebsite());
+                    Company selectedCompany = getCompany(selectedCompanyDTO);
 
                     car.setCompany(selectedCompany);
                 } else {
@@ -147,20 +128,24 @@ public class AddCar {
             return;
         }
 
-        Request request = new Request();
-        request.setRequestMessage(new Gson().toJson(car));
-        request.setRequestType(RequestType.ADD_CAR);
+        Response addCarResponse = RequestHandler.sendRequest(RequestType.ADD_CAR, car);
 
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-        ClientSocket.getInstance().getOut().flush();
-
-        String responseJson = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(responseJson, Response.class);
-
-        if (response.getResponseStatus() == ResponseStatus.OK) {
+        if (addCarResponse.getResponseStatus() == ResponseStatus.OK) {
             System.out.println("Car added successfully!");
         } else {
-            System.err.println("Failed to add car: " + response.getResponseStatus());
+            System.err.println("Failed to add car: " + addCarResponse.getResponseStatus());
         }
+    }
+
+    @NotNull
+    private static Company getCompany(CompanyDTO selectedCompanyDTO) {
+        Company selectedCompany = new Company();
+        selectedCompany.setCompany_id(selectedCompanyDTO.getCompanyId());
+        selectedCompany.setName(selectedCompanyDTO.getName());
+        selectedCompany.setAddress(selectedCompanyDTO.getAddress());
+        selectedCompany.setPhone(selectedCompanyDTO.getPhone());
+        selectedCompany.setEmail(selectedCompanyDTO.getEmail());
+        selectedCompany.setWebsite(selectedCompanyDTO.getWebsite());
+        return selectedCompany;
     }
 }

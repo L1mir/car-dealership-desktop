@@ -8,5 +8,7 @@ public class SceneInitializer {
         SceneManager.addScene("admin-menu", "/org/limir/admin-menu.fxml");
         SceneManager.addScene("add-car", "/org/limir/add-car.fxml");
         SceneManager.addScene("add-company", "/org/limir/add-company.fxml");
+        SceneManager.addScene("delete-car", "/org/limir/delete-car.fxml");
+        SceneManager.addScene("update-car", "/org/limir/update-car.fxml");
     }
 }

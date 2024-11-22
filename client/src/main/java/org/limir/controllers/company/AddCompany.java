@@ -1,4 +1,4 @@
-package org.limir.controllers;
+package org.limir.controllers.company;
 
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
@@ -9,6 +9,7 @@ import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.entities.Company;
 import org.limir.models.enums.RequestType;
 import org.limir.models.tcp.Request;
+import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 import org.limir.utility.ClientSocket;
 
@@ -49,14 +50,6 @@ public class AddCompany {
         company.setWebsite(websiteTextField.getText());
         company.setEmail(emailTextField.getText());
 
-        Request request = new Request();
-        request.setRequestMessage(new Gson().toJson(company));
-        request.setRequestType(RequestType.ADD_COMPANY);
-
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-        ClientSocket.getInstance().getOut().flush();
-
-        String answer = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(answer, Response.class);
+        Response addCompanyResponse = RequestHandler.sendRequest(RequestType.ADD_COMPANY, company);
     }
 }

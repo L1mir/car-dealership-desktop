@@ -1,6 +1,5 @@
-package org.limir.controllers;
+package org.limir.controllers.auth;
 
-import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,10 +8,10 @@ import org.limir.models.entities.Person;
 import org.limir.models.entities.User;
 import org.limir.models.enums.Gender;
 import org.limir.models.enums.RequestType;
+import org.limir.models.enums.ResponseStatus;
 import org.limir.models.enums.UserRole;
-import org.limir.models.tcp.Request;
-import org.limir.utility.ClientSocket;
-import com.google.gson.GsonBuilder;
+import org.limir.models.tcp.RequestHandler;
+import org.limir.models.tcp.Response;
 
 import java.io.IOException;
 
@@ -47,7 +46,7 @@ public class Register {
         SceneManager.showScene("login");
     }
 
-    private SpinnerValueFactory<Integer> valueMarkFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 120, 18); // Установка диапазона и начального значения
+    private final SpinnerValueFactory<Integer> valueMarkFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 120, 18); // Установка диапазона и начального значения
 
     public void initialize() {
         spinnerAge.setValueFactory(valueMarkFactory);
@@ -76,17 +75,18 @@ public class Register {
         }
         person.setUserData(user);
 
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        String personJson = gson.toJson(person);
+        try {
+            Response response = RequestHandler.sendRequest(RequestType.REGISTER, person);
 
-        Request request = new Request();
-        request.setRequestMessage(personJson);
-        request.setRequestType(RequestType.REGISTER);
-
-        String jsonRequest = gson.toJson(request);
-
-        ClientSocket.getInstance().getOut().println(jsonRequest);
-        ClientSocket.getInstance().getOut().flush();
+            if (response.getResponseStatus() == ResponseStatus.OK) {
+                System.out.println("Registration successful!");
+                SceneManager.showScene("login");
+            } else {
+                System.out.println("Registration failed: ");
+            }
+        } catch (IOException e) {
+            System.err.println("Error connecting to server: " + e.getMessage());
+        }
     }
 
 }

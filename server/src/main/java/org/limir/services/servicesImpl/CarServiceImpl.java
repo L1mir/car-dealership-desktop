@@ -42,7 +42,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public boolean deleteCar(int id) {
+    public boolean deleteCar(Long id) {
         boolean isDeleted = false;
         try {
             if (carDao.deleteCar(id)) {
@@ -66,10 +66,21 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car findCarById(int id) {
+    public Car findCarById(Long id) {
         Car car = null;
         try {
             car = carDao.findCarById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return car;
+    }
+
+    @Override
+    public Car findCarByModel(String model) {
+        Car car = null;
+        try {
+            car = carDao.findCarByModel(model);
         } catch (Exception e) {
             e.printStackTrace();
         }

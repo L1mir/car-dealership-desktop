@@ -1,11 +1,9 @@
-package org.limir.controllers;
+package org.limir.controllers.auth;
 
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,9 +13,8 @@ import org.limir.models.entities.User;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
 import org.limir.models.enums.UserRole;
-import org.limir.models.tcp.Request;
+import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
-import org.limir.utility.ClientSocket;
 import org.limir.models.dto.UserDTO;
 
 import java.io.IOException;
@@ -34,18 +31,10 @@ public class Login {
         user.setUsername(textFieldLogin.getText());
         user.setPassword(passwordField.getText());
 
-        Request request = new Request();
-        request.setRequestMessage(new Gson().toJson(user));
-        request.setRequestType(RequestType.LOGIN);
+        Response loginResponse = RequestHandler.sendRequest(RequestType.LOGIN, user);
 
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-        ClientSocket.getInstance().getOut().flush();
-
-        String answer = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(answer, Response.class);
-
-        if (response.getResponseStatus() == ResponseStatus.OK) {
-            UserDTO loggedUserDTO = new Gson().fromJson(response.getResponseData(), UserDTO.class);
+        if (loginResponse.getResponseStatus() == ResponseStatus.OK) {
+            UserDTO loggedUserDTO = new Gson().fromJson(loginResponse.getResponseData(), UserDTO.class);
 
             Stage stage = (Stage) buttonLogin.getScene().getWindow();
             Parent root;
@@ -59,13 +48,13 @@ public class Login {
                 return;
             }
         } else {
-            System.out.println("Login failed: " + response.getResponseStatus());
+            System.out.println("Login failed: " + loginResponse.getResponseStatus());
         }
 
     }
 
 
-    public void registerPressed (ActionEvent event) throws IOException {
+    public void registerPressed(ActionEvent event) throws IOException {
         SceneManager.showScene("register");
     }
 }

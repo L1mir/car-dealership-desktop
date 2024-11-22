@@ -43,7 +43,7 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public boolean deleteCar(int id) {
+    public boolean deleteCar(Long id) {
         boolean isDeleted = false;
         Transaction tx = null;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
@@ -71,7 +71,7 @@ public class CarDaoImpl implements CarDao {
 
 
     @Override
-    public Car findCarById(int id) {
+    public Car findCarById(Long id) {
         Car car = null;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -83,11 +83,11 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public Car findCarByName(String name) {
+    public Car findCarByModel(String model) {
         Car car = null;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            car = session.createQuery("FROM Cars WHERE company_name = :name", Car.class)
-                    .setParameter("name", name)
+            car = session.createQuery("FROM Car WHERE model = :model", Car.class)
+                    .setParameter("model", model)
                     .uniqueResult();
         } catch (HibernateException e) {
             System.out.println("Exception: " + e);

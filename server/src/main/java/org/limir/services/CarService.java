@@ -6,8 +6,14 @@ import java.util.List;
 
 public interface CarService {
     boolean addCar(Car car);
+
     boolean updateCar(Car car);
-    boolean deleteCar(int id);
+
+    boolean deleteCar(Long id);
+
     List<Car> showCars();
-    Car findCarById(int id);
+
+    Car findCarById(Long id);
+
+    Car findCarByModel(String model);
 }

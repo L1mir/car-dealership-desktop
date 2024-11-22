@@ -6,6 +6,7 @@ import org.limir.models.enums.CarStatus;
 import java.math.BigDecimal;
 
 public class CarDTO {
+    private Long id;
     private String model;
     private int year;
     private BigDecimal price;
@@ -13,11 +14,20 @@ public class CarDTO {
     private String companyName;
 
     public CarDTO(Car car) {
+        this.id = car.getCar_id();
         this.model = car.getModel();
         this.year = car.getYear();
         this.price = car.getPrice();
         this.carStatus = car.getCar_status().toString();
         this.companyName = car.getCompany() != null ? car.getCompany().getName() : null;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getModel() {

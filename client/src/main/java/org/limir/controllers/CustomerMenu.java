@@ -19,6 +19,7 @@ import org.limir.models.tcp.Response;
 import org.limir.utility.ClientSocket;
 
 import javafx.scene.control.TableView;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -77,7 +78,8 @@ public class CustomerMenu {
         Response response = new Gson().fromJson(answer, Response.class);
 
         if (response.getResponseStatus() == ResponseStatus.OK) {
-            List<CarDTO> cars = new Gson().fromJson(response.getResponseData(), new TypeToken<List<CarDTO>>(){}.getType());
+            List<CarDTO> cars = new Gson().fromJson(response.getResponseData(), new TypeToken<List<CarDTO>>() {
+            }.getType());
 
             ObservableList<CarDTO> carsObserver = FXCollections.observableArrayList(cars);
             carTable.setItems(carsObserver);

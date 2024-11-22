@@ -9,7 +9,8 @@ public class Car {
     private String model;
     private int year;
     BigDecimal price;
-    CarStatus car_status;;
+    CarStatus car_status;
+    ;
     private Company company;
 
     public Car() {
