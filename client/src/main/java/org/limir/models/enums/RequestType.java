@@ -11,5 +11,7 @@ public enum RequestType {
     ADD_COMPANY,
     READ_COMPANY,
     READ_COMPANIES,
-    CREATE_ORDER
+    CREATE_ORDER,
+    CREATE_PAYMENT,
+    PURCHASE_ORDER
 }

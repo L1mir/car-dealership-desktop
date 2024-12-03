@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.CustomerMenu">
    <children>
-      <Label layoutX="63.0" layoutY="96.0" text="Каталог автомобилей">
+      <Label layoutX="32.0" layoutY="95.0" text="Каталог автомобилей">
          <font>
             <Font size="16.0" />
          </font></Label>
@@ -24,7 +24,7 @@
         </columns>
       </TableView>
       <Button fx:id="backButton" layoutX="478.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
-      <Button fx:id="orderButton" layoutX="419.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleOrderButton" prefHeight="26.0" prefWidth="74.0" text="Заказать" />
-      <ChoiceBox fx:id="paymentMethodChoiceBox" layoutX="247.0" layoutY="96.0" prefWidth="150.0" />
+      <Button fx:id="purchaseButton" layoutX="419.0" layoutY="95.0" mnemonicParsing="false" onAction="#handlePurchaseButton" prefHeight="26.0" prefWidth="74.0" text="Заказать" />
+      <ChoiceBox fx:id="paymentMethodChoiceBox" layoutX="208.0" layoutY="95.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

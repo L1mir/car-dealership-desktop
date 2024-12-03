@@ -12,8 +12,8 @@ import java.util.Date;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Long order_id;
+    @Column(name = "payment_id") // Изменено имя столбца на payment_id, чтобы избежать конфликта с order_id
+    private Long payment_id;
 
     @Column(name = "amount")
     private BigDecimal amount;
@@ -30,7 +30,7 @@ public class Payment {
     private PaymentStatus payment_status;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne
@@ -41,13 +41,11 @@ public class Payment {
     @JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
     private Company company;
 
-    public Payment() {
+    public Payment() {}
 
-    }
-
-    public Payment(Long order_id, BigDecimal amount, Date date, PaymentMethod payment_method,
+    public Payment(Long payment_id, BigDecimal amount, Date date, PaymentMethod payment_method,
                    PaymentStatus payment_status, Order order, User user, Company company) {
-        this.order_id = order_id;
+        this.payment_id = payment_id;
         this.amount = amount;
         this.date = date;
         this.payment_method = payment_method;
@@ -57,12 +55,12 @@ public class Payment {
         this.company = company;
     }
 
-    public Long getOrder_id() {
-        return order_id;
+    public Long getPayment_id() {
+        return payment_id;
     }
 
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
+    public void setPayment_id(Long payment_id) {
+        this.payment_id = payment_id;
     }
 
     public BigDecimal getAmount() {
@@ -124,14 +122,15 @@ public class Payment {
     @Override
     public String toString() {
         return "Payment{" +
-                "order_id=" + order_id +
+                "payment_id=" + payment_id +
                 ", amount=" + amount +
                 ", date=" + date +
                 ", payment_method=" + payment_method +
                 ", payment_status=" + payment_status +
-                ", order=" + order +
-                ", user=" + user +
-                ", company=" + company +
+                ", order_id=" + (order != null ? order.getOrder_id() : "null") +
+                ", user_id=" + (user != null ? user.getUser_id() : "null") +
+                ", company_id=" + (company != null ? company.getCompany_id() : "null") +
                 '}';
     }
 }
+

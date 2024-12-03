@@ -90,7 +90,7 @@ public class Service {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", company=" + company +
+                ", company_id=" + (company != null ? company.getCompany_id() : "null") +
                 '}';
     }
 }

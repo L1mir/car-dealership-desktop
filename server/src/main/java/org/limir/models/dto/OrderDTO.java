@@ -1,10 +1,10 @@
 package org.limir.models.dto;
 
 import org.limir.enums.OrderStatus;
+import org.limir.enums.PaymentMethod;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 public class OrderDTO {
     private Long carId;
@@ -15,7 +15,19 @@ public class OrderDTO {
     private BigDecimal totalPrice;
     private String userName;
     private String companyName;
-    private List<Long> paymentIds;
+    private PaymentMethod paymentMethod;
+
+    public void setCarId(Long carId) {
+        this.carId = carId;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
     public OrderDTO() {
     }
@@ -84,24 +96,19 @@ public class OrderDTO {
         this.companyName = companyName;
     }
 
-    public List<Long> getPaymentIds() {
-        return paymentIds;
-    }
-
-    public void setPaymentIds(List<Long> paymentIds) {
-        this.paymentIds = paymentIds;
-    }
 
     @Override
     public String toString() {
         return "OrderDTO{" +
-                "orderId=" + orderId +
+                "carId=" + carId +
+                ", companyId=" + companyId +
+                ", orderId=" + orderId +
                 ", date=" + date +
                 ", orderStatus=" + orderStatus +
                 ", totalPrice=" + totalPrice +
                 ", userName='" + userName + '\'' +
                 ", companyName='" + companyName + '\'' +
-                ", paymentIds=" + paymentIds +
+                ", paymentMethod='" + paymentMethod + '\'' +
                 '}';
     }
 }

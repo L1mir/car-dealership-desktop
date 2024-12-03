@@ -31,27 +31,22 @@ public class Company {
     @Column(name = "website")
     private String website;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Car> cars = new HashSet<>();
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Service> services = new HashSet<>();
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Employee> employees = new HashSet<>();
 
-    public Company() {
-
-    }
+    public Company() {}
 
     public Company(Long company_id, String name, String address, String phone,
                    String email, String website, Set<Car> cars, Set<Order> orders,
@@ -166,11 +161,11 @@ public class Company {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
-                ", cars_count=" + (cars != null ? cars.size() : 0) +
-                ", orders_count=" + (orders != null ? orders.size() : 0) +
-                ", payments_count=" + (payments != null ? payments.size() : 0) +
-                ", services_count=" + (services != null ? services.size() : 0) +
-                ", employees_count=" + (employees != null ? employees.size() : 0) +
+                ", cars_count=" + (cars != null ? cars.size() : "not initialized") +
+                ", orders_count=" + (orders != null ? orders.size() : "not initialized") +
+                ", payments_count=" + (payments != null ? payments.size() : "not initialized") +
+                ", services_count=" + (services != null ? services.size() : "not initialized") +
+                ", employees_count=" + (employees != null ? employees.size() : "not initialized") +
                 '}';
     }
 

@@ -6,7 +6,7 @@ public class CurrentUser {
     private static UserDTO user;
 
     private CurrentUser() {
-        // Приватный конструктор для предотвращения создания экземпляра
+
     }
 
     public static void setUser(UserDTO loggedUser) {
@@ -18,7 +18,7 @@ public class CurrentUser {
     }
 
     public static void clear() {
-        user = null; // Сбрасываем данные пользователя при выходе
+        user = null;
     }
 }
 

@@ -15,9 +15,11 @@ import org.limir.models.CurrentUser;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;
+import org.limir.models.enums.PaymentMethod;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
 import org.limir.models.tcp.Request;
+import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 import org.limir.utility.ClientSocket;
 import org.limir.models.dto.OrderDTO;
@@ -49,7 +51,7 @@ public class CustomerMenu {
     private TableColumn<Car, String> carCompanyColumn;
 
     @FXML
-    private Button orderButton;
+    private Button purchaseButton;
 
     @FXML
     private Button backButton;
@@ -105,6 +107,12 @@ public class CustomerMenu {
     private void handleOrderButton(ActionEvent event) {
         CarDTO selectedCar = carTable.getSelectionModel().getSelectedItem();
 
+        String selectedPaymentMethod = (String) paymentMethodChoiceBox.getValue();
+        if (selectedPaymentMethod == null) {
+            System.out.println("Выберите метод оплаты.");
+            return;
+        }
+
         if (selectedCar == null) {
             System.out.println("Выберите машину для заказа.");
             return;
@@ -118,8 +126,7 @@ public class CustomerMenu {
         }
 
         try {
-            Request request = new Request();
-            request.setRequestType(RequestType.CREATE_ORDER);
+            PaymentMethod paymentMethod = PaymentMethod.valueOf(selectedPaymentMethod.toUpperCase());
 
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setCartId(selectedCar.getCarId());
@@ -128,24 +135,74 @@ public class CustomerMenu {
             orderDTO.setCompanyName(selectedCar.getCompanyName());
             orderDTO.setTotalPrice(selectedCar.getPrice());
             orderDTO.setDate(new Date());
+            orderDTO.setPaymentMethod(paymentMethod);
 
-            request.setRequestMessage(new Gson().toJson(orderDTO));
+            Response createOrderResponse = RequestHandler.sendRequest(RequestType.CREATE_ORDER, orderDTO);
+            Response createPaymentResponse = RequestHandler.sendRequest(RequestType.CREATE_PAYMENT, orderDTO);
 
-            ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-            ClientSocket.getInstance().getOut().flush();
-
-            String responseJson = ClientSocket.getInstance().getIn().readLine();
-            Response response = new Gson().fromJson(responseJson, Response.class);
-
-            if (response.getResponseStatus() == ResponseStatus.OK) {
+            if (createOrderResponse.getResponseStatus() == ResponseStatus.OK) {
                 System.out.println("Заказ успешно создан!");
             } else {
-                System.out.println("Ошибка создания заказа: " + response.getResponseStatus());
+                System.out.println("Ошибка создания заказа: " + createOrderResponse.getResponseStatus());
+            }
+            if (createPaymentResponse.getResponseStatus() == ResponseStatus.OK) {
+                System.out.println("Оплата успешно проведена!");
+            } else {
+                System.out.println("Ошибка создания оплаты: " + createPaymentResponse.getResponseStatus());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @FXML
+    private void handlePurchaseButton(ActionEvent event) {
+        CarDTO selectedCar = carTable.getSelectionModel().getSelectedItem();
 
+        String selectedPaymentMethod = (String) paymentMethodChoiceBox.getValue();
+        if (selectedPaymentMethod == null) {
+            System.out.println("Выберите метод оплаты.");
+            return;
+        }
+
+        if (selectedCar == null) {
+            System.out.println("Выберите машину для заказа.");
+            return;
+        }
+
+        UserDTO currentUser = CurrentUser.getUser();
+
+        if (currentUser == null) {
+            System.out.println("Пользователь не авторизован!");
+            return;
+        }
+
+        try {
+            PaymentMethod paymentMethod = PaymentMethod.valueOf(selectedPaymentMethod.toUpperCase());
+
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setCartId(selectedCar.getCarId());
+            orderDTO.setCompanyId(selectedCar.getCompanyId());
+            orderDTO.setUserName(currentUser.getUsername());
+            orderDTO.setCompanyName(selectedCar.getCompanyName());
+            orderDTO.setTotalPrice(selectedCar.getPrice());
+            orderDTO.setDate(new Date());
+            orderDTO.setPaymentMethod(paymentMethod);
+
+            Response purchaseOrderResponse = RequestHandler.sendRequest(RequestType.PURCHASE_ORDER, orderDTO);
+
+            if (purchaseOrderResponse.getResponseStatus() == ResponseStatus.OK) {
+                System.out.println("Заказ успешно создан!");
+            } else {
+                System.out.println("Ошибка создания заказа: " + purchaseOrderResponse.getResponseStatus());
+            }
+            if (purchaseOrderResponse.getResponseStatus() == ResponseStatus.OK) {
+                System.out.println("Оплата успешно проведена!");
+            } else {
+                System.out.println("Ошибка создания оплаты: " + purchaseOrderResponse.getResponseStatus());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

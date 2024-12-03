@@ -1,9 +1,9 @@
 package org.limir.utility;
 
-import com.google.gson.Gson;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.limir.enums.OrderStatus;
+import org.limir.enums.PaymentStatus;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.CompanyDTO;
 import org.limir.models.dto.OrderDTO;
@@ -26,7 +26,7 @@ public class RequestProcessor {
     private CarService carService;
     private CompanyService companyService;
     private OrderService orderService;
-
+    private PaymentService paymentService;
 
     public RequestProcessor() {
         personService = new PersonServiceImpl();
@@ -35,6 +35,7 @@ public class RequestProcessor {
         companyService = new CompanyServiceImpl();
         responseBuilder = new ResponseBuilder();
         orderService = new OrderServiceImpl();
+        paymentService = new PaymentServiceImpl();
     }
 
     public Response processRequest(Request request) {
@@ -55,8 +56,8 @@ public class RequestProcessor {
                 return handleDeleteCar(request);
             case UPDATE_CAR:
                 return handleUpdateCar(request);
-            case CREATE_ORDER:
-                return handleCreateOrder(request);
+            case PURCHASE_ORDER:
+                return handlePurchaseOrder(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -152,7 +153,7 @@ public class RequestProcessor {
         }
     }
 
-    private Response handleCreateOrder(Request request) {
+    private Response handlePurchaseOrder(Request request) {
         OrderDTO orderDTO = RequestDeserializer.deserializeOrderDto(request);
 
         try {
@@ -171,6 +172,7 @@ public class RequestProcessor {
                 return responseBuilder.createErrorResponse("Company not found");
             }
 
+
             if (!car.getCompany().getCompany_id().equals(company.getCompany_id())) {
                 return responseBuilder.createErrorResponse("The car does not belong to the specified company");
             }
@@ -181,8 +183,17 @@ public class RequestProcessor {
             order.setTotal_price(orderDTO.getTotalPrice());
             order.setDate(orderDTO.getDate());
             order.setOrder_status(OrderStatus.PROCESSING);
-
             orderService.addOrder(order);
+
+            Payment payment = new Payment();
+            payment.setUser(user);
+            payment.setCompany(company);
+            payment.setAmount(orderDTO.getTotalPrice());
+            payment.setDate(orderDTO.getDate());
+            payment.setPayment_method(orderDTO.getPaymentMethod());
+            payment.setPayment_status(PaymentStatus.PROCESSED);
+            payment.setOrder(order);
+            paymentService.addPayment(payment);
 
             return responseBuilder.createSuccessResponse("Order created successfully");
 
@@ -191,6 +202,4 @@ public class RequestProcessor {
             return responseBuilder.createErrorResponse("Error while creating order");
         }
     }
-
 }
-

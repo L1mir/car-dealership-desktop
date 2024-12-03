@@ -36,12 +36,10 @@ public class Order {
     @JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
     private Company company;
 
-    public Order() {
+    public Order() {}
 
-    }
-
-    public Order(Long order_id, Date date, OrderStatus order_status,
-                 BigDecimal total_price, List<Payment> payments, User user, Company company) {
+    public Order(Long order_id, Date date, OrderStatus order_status, BigDecimal total_price,
+                 List<Payment> payments, User user, Company company) {
         this.order_id = order_id;
         this.date = date;
         this.order_status = order_status;
@@ -114,9 +112,10 @@ public class Order {
                 ", date=" + date +
                 ", order_status=" + order_status +
                 ", total_price=" + total_price +
-                ", payments=" + payments +
-                ", user=" + user +
-                ", company=" + company +
+                ", payments_count=" + (payments != null ? payments.size() : 0) +
+                ", user_id=" + (user != null ? user.getUser_id() : "null") +
+                ", company_id=" + (company != null ? company.getCompany_id() : "null") +
                 '}';
     }
+
 }

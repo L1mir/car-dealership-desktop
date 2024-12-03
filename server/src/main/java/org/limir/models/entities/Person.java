@@ -120,7 +120,7 @@ public class Person implements Serializable {
                 ", last_name='" + last_name + '\'' +
                 ", age=" + age +
                 ", gender=" + gender +
-                ", employees=" + employees +
+                ", employees_count=" + (employees != null ? employees.size() : 0) +
                 '}';
     }
 }

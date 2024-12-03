@@ -83,8 +83,8 @@ public class Employee {
                 "employee_id=" + employee_id +
                 ", position='" + position + '\'' +
                 ", salary=" + salary +
-                ", company=" + company +
-                ", person=" + person +
+                ", company_id=" + (company != null ? company.getCompany_id() : "null") +
+                ", person_id=" + (person != null ? person.getPerson_id() : "null") +
                 '}';
     }
 }

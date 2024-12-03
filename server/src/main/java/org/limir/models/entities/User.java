@@ -158,13 +158,13 @@ public class User {
         return "User{" +
                 "user_id=" + user_id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", user_role=" + user_role +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", payments=" + payments +
-                ", orders=" + orders +
+                ", payments_count=" + (payments != null ? payments.size() : 0) +
+                ", orders_count=" + (orders != null ? orders.size() : 0) +
                 '}';
     }
+
 }

@@ -90,10 +90,12 @@ public class CompanyDaoImpl implements CompanyDao {
                     .setParameter("name", name)
                     .uniqueResult();
 
-            // Инициализируем ленивые ассоциации, если они есть
             if (company != null) {
-                Hibernate.initialize(company.getOrders());  // Пример для orders
-                Hibernate.initialize(company.getCars());    // Пример для cars
+                Hibernate.initialize(company.getOrders());
+                Hibernate.initialize(company.getCars());
+                Hibernate.initialize(company.getPayments());
+                Hibernate.initialize(company.getServices());
+                Hibernate.initialize(company.getEmployees());
             }
         } catch (HibernateException e) {
             System.out.println("Exception: " + e);
