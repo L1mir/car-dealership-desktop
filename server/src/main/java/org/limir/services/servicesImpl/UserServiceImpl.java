@@ -72,4 +72,16 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        User user = null;
+
+        try {
+            user = userDao.findUserByUsername(username);
+        } catch (HibernateError error) {
+            error.printStackTrace();
+        }
+        return user;
+    }
 }

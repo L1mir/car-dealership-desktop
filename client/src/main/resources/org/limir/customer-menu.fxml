@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.CustomerMenu">
    <children>
-      <Label layoutX="113.0" layoutY="109.0" text="Каталог автомобилей" />
-      <TableView fx:id="carTable" layoutX="113.0" layoutY="127.0" prefHeight="348.0" prefWidth="494.0">
+      <Label layoutX="63.0" layoutY="96.0" text="Каталог автомобилей">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <TableView fx:id="carTable" layoutY="127.0" prefHeight="348.0" prefWidth="494.0">
         <columns>
-          <TableColumn fx:id="carModelColumn" prefWidth="145.5999755859375" text="Model" />
           <TableColumn fx:id="carYearColumn" minWidth="0.0" prefWidth="81.60003662109375" text="Year" />
             <TableColumn fx:id="carPriceColumn" text="Price" />
             <TableColumn fx:id="carStatusColumn" prefWidth="74.39996337890625" text="Status" />
             <TableColumn fx:id="carCompanyColumn" prefWidth="111.19998779296873" text="Company" />
+          <TableColumn fx:id="carModelColumn" prefWidth="145.5999755859375" text="Model" />
         </columns>
       </TableView>
       <Button fx:id="backButton" layoutX="478.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
+      <Button fx:id="orderButton" layoutX="419.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleOrderButton" prefHeight="26.0" prefWidth="74.0" text="Заказать" />
+      <ChoiceBox fx:id="paymentMethodChoiceBox" layoutX="247.0" layoutY="96.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

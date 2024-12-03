@@ -39,7 +39,7 @@ CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
     date DATE NOT NULL,
-    order_status VARCHAR(20) CHECK (order_status IN ('processing', 'completed', 'canceled')),
+    order_status VARCHAR(20) CHECK (order_status IN ('PROCESSING', 'COMPLETED', 'CANCELED')),
     total_price DECIMAL(10, 2),
     company_id INT REFERENCES Companies(company_id) ON DELETE SET NULL
 );

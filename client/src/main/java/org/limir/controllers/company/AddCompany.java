@@ -1,6 +1,5 @@
 package org.limir.controllers.company;
 
-import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,10 +7,8 @@ import javafx.scene.control.TextField;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.entities.Company;
 import org.limir.models.enums.RequestType;
-import org.limir.models.tcp.Request;
 import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
-import org.limir.utility.ClientSocket;
 
 import java.io.IOException;
 

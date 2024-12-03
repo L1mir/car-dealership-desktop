@@ -1,7 +1,12 @@
 package org.limir.models.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Companies")
@@ -26,28 +31,31 @@ public class Company {
     @Column(name = "website")
     private String website;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Car> cars;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Car> cars = new HashSet<>();
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+    private Set<Order> orders = new HashSet<>();
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
+    @Fetch(FetchMode.SELECT)
+    private Set<Payment> payments = new HashSet<>();
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payment> payments;
+    @Fetch(FetchMode.SELECT)
+    private Set<Service> services = new HashSet<>();
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Service> services;
-
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Employee> employees;
+    @Fetch(FetchMode.SELECT)
+    private Set<Employee> employees = new HashSet<>();
 
     public Company() {
 
     }
 
     public Company(Long company_id, String name, String address, String phone,
-                   String email, String website, List<Car> cars, List<Order> orders,
-                   List<Payment> payments, List<Service> services, List<Employee> employees) {
+                   String email, String website, Set<Car> cars, Set<Order> orders,
+                   Set<Payment> payments, Set<Service> services, Set<Employee> employees) {
         this.company_id = company_id;
         this.name = name;
         this.address = address;
@@ -77,20 +85,20 @@ public class Company {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -109,43 +117,43 @@ public class Company {
         this.website = website;
     }
 
-    public List<Car> getCars() {
+    public Set<Car> getCars() {
         return cars;
     }
 
-    public void setCars(List<Car> cars) {
+    public void setCars(Set<Car> cars) {
         this.cars = cars;
     }
 
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 
-    public List<Payment> getPayments() {
+    public Set<Payment> getPayments() {
         return payments;
     }
 
-    public void setPayments(List<Payment> payments) {
+    public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
 
-    public List<Service> getServices() {
+    public Set<Service> getServices() {
         return services;
     }
 
-    public void setServices(List<Service> services) {
+    public void setServices(Set<Service> services) {
         this.services = services;
     }
 
-    public List<Employee> getEmployees() {
+    public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
+    public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
 

@@ -1,8 +1,9 @@
 package org.limir.models.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Company {
+public class Company implements Serializable {
     private Long company_id;
     private String name;
     private String address;

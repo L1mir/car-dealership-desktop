@@ -1,5 +1,6 @@
 package org.limir.dataAccessObjects.daoImpl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -43,7 +44,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public boolean deleteCompany(int id) {
+    public boolean deleteCompany(Long id) {
         boolean isDeleted = false;
         Transaction tx = null;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
@@ -70,7 +71,7 @@ public class CompanyDaoImpl implements CompanyDao {
     }
 
     @Override
-    public Company findCompanyById(int id) {
+    public Company findCompanyById(Long id) {
         Company company = null;
         try {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -85,9 +86,15 @@ public class CompanyDaoImpl implements CompanyDao {
     public Company findCompanyByName(String name) {
         Company company = null;
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            company = session.createQuery("FROM Companies WHERE company_name = :name", Company.class)
+            company = session.createQuery("FROM Company WHERE name = :name", Company.class)
                     .setParameter("name", name)
                     .uniqueResult();
+
+            // Инициализируем ленивые ассоциации, если они есть
+            if (company != null) {
+                Hibernate.initialize(company.getOrders());  // Пример для orders
+                Hibernate.initialize(company.getCars());    // Пример для cars
+            }
         } catch (HibernateException e) {
             System.out.println("Exception: " + e);
         }

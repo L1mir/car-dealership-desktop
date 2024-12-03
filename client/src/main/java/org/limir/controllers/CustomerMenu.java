@@ -7,21 +7,26 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.limir.controllers.sceneUtility.SceneManager;
+import org.limir.models.CurrentUser;
 import org.limir.models.dto.CarDTO;
+import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
 import org.limir.utility.ClientSocket;
+import org.limir.models.dto.OrderDTO;
 
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class CustomerMenu {
@@ -44,7 +49,13 @@ public class CustomerMenu {
     private TableColumn<Car, String> carCompanyColumn;
 
     @FXML
+    private Button orderButton;
+
+    @FXML
     private Button backButton;
+
+    @FXML
+    private ChoiceBox paymentMethodChoiceBox;
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
@@ -58,6 +69,8 @@ public class CustomerMenu {
         carPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         carStatusColumn.setCellValueFactory(new PropertyValueFactory<>("carStatus"));
         carCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("companyName"));
+
+        paymentMethodChoiceBox.getItems().addAll("CASH", "CARD", "CREDIT");
 
         try {
             loadCarsFromServer();
@@ -87,5 +100,52 @@ public class CustomerMenu {
             System.out.println("Error loading cars: " + response.getResponseStatus());
         }
     }
+
+    @FXML
+    private void handleOrderButton(ActionEvent event) {
+        CarDTO selectedCar = carTable.getSelectionModel().getSelectedItem();
+
+        if (selectedCar == null) {
+            System.out.println("Выберите машину для заказа.");
+            return;
+        }
+
+        UserDTO currentUser = CurrentUser.getUser();
+
+        if (currentUser == null) {
+            System.out.println("Пользователь не авторизован!");
+            return;
+        }
+
+        try {
+            Request request = new Request();
+            request.setRequestType(RequestType.CREATE_ORDER);
+
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setCartId(selectedCar.getCarId());
+            orderDTO.setCompanyId(selectedCar.getCompanyId());
+            orderDTO.setUserName(currentUser.getUsername());
+            orderDTO.setCompanyName(selectedCar.getCompanyName());
+            orderDTO.setTotalPrice(selectedCar.getPrice());
+            orderDTO.setDate(new Date());
+
+            request.setRequestMessage(new Gson().toJson(orderDTO));
+
+            ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
+            ClientSocket.getInstance().getOut().flush();
+
+            String responseJson = ClientSocket.getInstance().getIn().readLine();
+            Response response = new Gson().fromJson(responseJson, Response.class);
+
+            if (response.getResponseStatus() == ResponseStatus.OK) {
+                System.out.println("Заказ успешно создан!");
+            } else {
+                System.out.println("Ошибка создания заказа: " + response.getResponseStatus());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

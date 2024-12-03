@@ -26,7 +26,7 @@ public class Car {
     @Column(name = "car_status")
     CarStatus car_status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
 

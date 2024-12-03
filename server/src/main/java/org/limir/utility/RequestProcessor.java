@@ -1,23 +1,17 @@
 package org.limir.utility;
 
+import com.google.gson.Gson;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.limir.enums.OrderStatus;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.CompanyDTO;
-import org.limir.models.entities.Car;
-import org.limir.models.entities.Company;
-import org.limir.models.entities.Person;
-import org.limir.models.entities.User;
+import org.limir.models.dto.OrderDTO;
+import org.limir.models.entities.*;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
-import org.limir.services.CarService;
-import org.limir.services.CompanyService;
-import org.limir.services.PersonService;
-import org.limir.services.UserService;
-import org.limir.services.servicesImpl.CarServiceImpl;
-import org.limir.services.servicesImpl.CompanyServiceImpl;
-import org.limir.services.servicesImpl.PersonServiceImpl;
-import org.limir.services.servicesImpl.UserServiceImpl;
+import org.limir.services.*;
+import org.limir.services.servicesImpl.*;
 import org.limir.sessionFactory.HibernateSessionFactory;
 
 import java.util.ArrayList;
@@ -25,11 +19,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RequestProcessor {
+    private ResponseBuilder responseBuilder;
+
     private PersonService personService;
     private UserService userService;
     private CarService carService;
     private CompanyService companyService;
-    private ResponseBuilder responseBuilder;
+    private OrderService orderService;
+
 
     public RequestProcessor() {
         personService = new PersonServiceImpl();
@@ -37,6 +34,7 @@ public class RequestProcessor {
         carService = new CarServiceImpl();
         companyService = new CompanyServiceImpl();
         responseBuilder = new ResponseBuilder();
+        orderService = new OrderServiceImpl();
     }
 
     public Response processRequest(Request request) {
@@ -57,6 +55,8 @@ public class RequestProcessor {
                 return handleDeleteCar(request);
             case UPDATE_CAR:
                 return handleUpdateCar(request);
+            case CREATE_ORDER:
+                return handleCreateOrder(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -149,6 +149,46 @@ public class RequestProcessor {
         } catch (Exception e) {
             e.printStackTrace();
             return responseBuilder.createErrorResponse("Error updating car");
+        }
+    }
+
+    private Response handleCreateOrder(Request request) {
+        OrderDTO orderDTO = RequestDeserializer.deserializeOrderDto(request);
+
+        try {
+            User user = userService.findUserByUsername(orderDTO.getUserName());
+            if (user == null) {
+                return responseBuilder.createErrorResponse("User not found");
+            }
+
+            Car car = carService.findCarById(orderDTO.getCarId());
+            if (car == null) {
+                return responseBuilder.createErrorResponse("Car not found");
+            }
+
+            Company company = companyService.findCompanyByName(orderDTO.getCompanyName());
+            if (company == null) {
+                return responseBuilder.createErrorResponse("Company not found");
+            }
+
+            if (!car.getCompany().getCompany_id().equals(company.getCompany_id())) {
+                return responseBuilder.createErrorResponse("The car does not belong to the specified company");
+            }
+
+            Order order = new Order();
+            order.setUser(user);
+            order.setCompany(company);
+            order.setTotal_price(orderDTO.getTotalPrice());
+            order.setDate(orderDTO.getDate());
+            order.setOrder_status(OrderStatus.PROCESSING);
+
+            orderService.addOrder(order);
+
+            return responseBuilder.createSuccessResponse("Order created successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return responseBuilder.createErrorResponse("Error while creating order");
         }
     }
 

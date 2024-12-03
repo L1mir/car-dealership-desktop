@@ -9,11 +9,11 @@ public interface CompanyService {
 
     boolean updateCompany(Company company);
 
-    boolean deleteCompany(int id);
+    boolean deleteCompany(Long id);
 
     List<Company> showCompanies();
 
-    Company findCompanyById(int id);
+    Company findCompanyById(Long id);
 
     Company findCompanyByName(String name);
 }

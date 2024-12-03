@@ -2,15 +2,15 @@ package org.limir.models.entities;
 
 import org.limir.models.enums.CarStatus;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Car {
+public class Car implements Serializable {
     private Long car_id;
     private String model;
     private int year;
     BigDecimal price;
     CarStatus car_status;
-    ;
     private Company company;
 
     public Car() {

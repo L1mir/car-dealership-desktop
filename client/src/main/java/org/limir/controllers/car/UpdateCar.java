@@ -14,9 +14,8 @@ import org.limir.models.entities.Company;
 import org.limir.models.enums.CarStatus;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
-import org.limir.models.tcp.Request;
+import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
-import org.limir.utility.ClientSocket;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -67,29 +66,23 @@ public class UpdateCar {
     }
 
     private void loadCompanies() throws IOException {
-        Request request = new Request();
-        request.setRequestType(RequestType.READ_COMPANIES);
+        Response readCompaniesResponse = RequestHandler.sendRequest(RequestType.READ_COMPANIES, null);
 
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-        ClientSocket.getInstance().getOut().flush();
-
-        String responseJson = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(responseJson, Response.class);
-
-        if (response.getResponseStatus() == ResponseStatus.OK) {
+        if (readCompaniesResponse.getResponseStatus() == ResponseStatus.OK) {
             List<Company> companies = new Gson().fromJson(
-                    response.getResponseData(),
+                    readCompaniesResponse.getResponseData(),
                     new TypeToken<List<Company>>() {
                     }.getType()
             );
 
             ObservableList<String> companyNames = FXCollections.observableArrayList();
+
             for (Company company : companies) {
                 companyNames.add(company.getName());
             }
             companyNameChoiceBox.setItems(companyNames);
         } else {
-            System.err.println("Failed to load companies: " + response.getResponseStatus());
+            System.err.println("Failed to load companies: " + readCompaniesResponse.getResponseStatus());
         }
     }
 
@@ -102,18 +95,11 @@ public class UpdateCar {
             return;
         }
 
-        Request searchRequest = new Request();
-        searchRequest.setRequestType(RequestType.READ_CARS);
+        Response readCarsResponse = RequestHandler.sendRequest(RequestType.READ_CARS, null);
 
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(searchRequest));
-        ClientSocket.getInstance().getOut().flush();
-
-        String searchResponseJson = ClientSocket.getInstance().getIn().readLine();
-        Response searchResponse = new Gson().fromJson(searchResponseJson, Response.class);
-
-        if (searchResponse.getResponseStatus() == ResponseStatus.OK) {
+        if (readCarsResponse.getResponseStatus() == ResponseStatus.OK) {
             List<CarDTO> carDTOList = new Gson().fromJson(
-                    searchResponse.getResponseData(),
+                    readCarsResponse.getResponseData(),
                     new TypeToken<List<CarDTO>>() {
                     }.getType()
             );
@@ -132,34 +118,24 @@ public class UpdateCar {
                 carToUpdate.setCarStatus(selectedStatus);
 
                 Car carToUpdateEntity = new Car();
-                carToUpdateEntity.setCar_id(carToUpdate.getId());
+                carToUpdateEntity.setCar_id(carToUpdate.getCarId());
                 carToUpdateEntity.setModel(carToUpdate.getModel());
                 carToUpdateEntity.setYear(carToUpdate.getYear());
                 carToUpdateEntity.setPrice(carToUpdate.getPrice());
                 carToUpdateEntity.setCar_status(CarStatus.valueOf(carToUpdate.getCarStatus()));
 
-                Request updateRequest = new Request();
-                updateRequest.setRequestType(RequestType.UPDATE_CAR);
-                updateRequest.setRequestMessage(new Gson().toJson(carToUpdateEntity));
+                Response updateCarResponse = RequestHandler.sendRequest(RequestType.UPDATE_CAR, carToUpdateEntity);
 
-                ClientSocket.getInstance().getOut().println(new Gson().toJson(updateRequest));
-                ClientSocket.getInstance().getOut().flush();
-
-                String updateResponseJson = ClientSocket.getInstance().getIn().readLine();
-                Response updateResponse = new Gson().fromJson(updateResponseJson, Response.class);
-
-                if (updateResponse.getResponseStatus() == ResponseStatus.OK) {
+                if (updateCarResponse.getResponseStatus() == ResponseStatus.OK) {
                     System.out.println("Car updated successfully!");
                 } else {
-                    System.err.println("Failed to update car: " + updateResponse.getResponseStatus());
+                    System.err.println("Failed to update car: " + updateCarResponse.getResponseStatus());
                 }
             } else {
                 System.err.println("Car not found!");
             }
         } else {
-            System.err.println("Error searching car: " + searchResponse.getResponseStatus());
+            System.err.println("Error searching car: " + readCarsResponse.getResponseStatus());
         }
     }
-
-
 }

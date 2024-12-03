@@ -9,5 +9,6 @@ public enum RequestType {
     READ_CAR,
     READ_CARS,
     ADD_COMPANY,
-    READ_COMPANIES
+    READ_COMPANIES,
+    CREATE_ORDER
 }

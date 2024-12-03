@@ -41,7 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public boolean deleteCompany(int id) {
+    public boolean deleteCompany(Long id) {
         boolean isDeleted = false;
         try {
             if (companyDao.deleteCompany(id)) {
@@ -65,7 +65,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company findCompanyById(int id) {
+    public Company findCompanyById(Long id) {
         Company company = null;
         try {
             company = companyDao.findCompanyById(id);
