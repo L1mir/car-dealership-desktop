@@ -46,7 +46,7 @@
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="123.0" text="Диаграммы">
+            <Button fx:id="diagramButton" mnemonicParsing="false" onAction="#handleDiagramButton" prefHeight="60.0" prefWidth="123.0" text="Диаграммы">
                <font>
                   <Font size="11.0" />
                </font>
@@ -67,7 +67,7 @@
          <children>
             <Label alignment="CENTER" prefHeight="26.0" prefWidth="94.0" text="Способ оплаты:" />
             <ChoiceBox fx:id="paymentMethodChoiceBox" prefHeight="26.0" prefWidth="107.0" />
-            <TextField prefHeight="26.0" prefWidth="134.0" promptText="Купон" />
+            <TextField fx:id="couponTextField" prefHeight="26.0" prefWidth="134.0" promptText="Купон" />
             <Button fx:id="purchaseButton" mnemonicParsing="false" onAction="#handlePurchaseButton" prefHeight="27.0" prefWidth="96.0" text="Заказать" />
          </children>
       </HBox>

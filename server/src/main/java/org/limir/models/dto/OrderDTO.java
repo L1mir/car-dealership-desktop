@@ -1,5 +1,6 @@
 package org.limir.models.dto;
 
+import org.limir.enums.Coupon;
 import org.limir.enums.OrderStatus;
 import org.limir.enums.PaymentMethod;
 import org.limir.models.entities.Order;
@@ -17,6 +18,15 @@ public class OrderDTO {
     private String userName;
     private String companyName;
     private PaymentMethod paymentMethod;
+    private Coupon coupon;
+
+    public Coupon getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
+    }
 
     public OrderDTO(Order order) {
         if (order != null) {

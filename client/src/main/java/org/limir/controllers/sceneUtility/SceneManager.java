@@ -23,7 +23,7 @@ public class SceneManager {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
             Parent root = loader.load();
             scenes.put(name, new Scene(root));
-            controllers.put(name, loader.getController());  // Сохраняем контроллер
+            controllers.put(name, loader.getController());
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Не удалось загрузить FXML: " + fxmlPath);

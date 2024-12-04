@@ -12,7 +12,7 @@ import java.util.Date;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payment_id") // Изменено имя столбца на payment_id, чтобы избежать конфликта с order_id
+    @Column(name = "payment_id")
     private Long payment_id;
 
     @Column(name = "amount")

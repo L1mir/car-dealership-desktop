@@ -6,9 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.limir.controllers.order.OrderHistory;
@@ -17,14 +15,13 @@ import org.limir.models.CurrentUser;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;
+import org.limir.models.enums.Coupon;
 import org.limir.models.enums.PaymentMethod;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
 import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 import org.limir.models.dto.OrderDTO;
-
-import javafx.scene.control.TableView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -64,6 +61,12 @@ public class CustomerMenu {
 
     @FXML
     private TableColumn<CarDTO, Boolean> favoriteColumn;
+
+    @FXML
+    private TextField couponTextField;
+
+    @FXML
+    private Button diagramButton;
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
@@ -130,6 +133,20 @@ public class CustomerMenu {
             return;
         }
 
+        String enteredCoupon = couponTextField.getText().trim().toUpperCase();
+        Coupon coupon = null;
+        try {
+            coupon = Coupon.valueOf(enteredCoupon);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Неверный купон.");
+        }
+
+        if (coupon != null) {
+            System.out.println("Купон принят: " + coupon);
+            applyCoupon(selectedCar, coupon);
+        }
+
+
         try {
             PaymentMethod paymentMethod = PaymentMethod.valueOf(selectedPaymentMethod.toUpperCase());
 
@@ -159,6 +176,23 @@ public class CustomerMenu {
         }
     }
 
+    private void applyCoupon(CarDTO selectedCar, Coupon coupon) {
+        switch (coupon) {
+            case LOYALTY15:
+                selectedCar.setPrice(selectedCar.getPrice().multiply(BigDecimal.valueOf(0.85)));
+                break;
+            case ROYALTY20:
+                selectedCar.setPrice(selectedCar.getPrice().multiply(BigDecimal.valueOf(0.80)));
+                break;
+            case SERVICE30:
+                selectedCar.setPrice(selectedCar.getPrice().multiply(BigDecimal.valueOf(0.70)));
+                break;
+            default:
+                System.out.println("Купон не существует.");
+                break;
+        }
+    }
+
     @FXML
     private void handleOrderHistoryButton(ActionEvent event) {
         SceneManager.showScene("order-history");
@@ -172,4 +206,8 @@ public class CustomerMenu {
     }
 
 
+    @FXML
+    private void handleDiagramButton(ActionEvent event) {
+        SceneManager.showScene("avg-company-price");
+    }
 }
