@@ -18,10 +18,8 @@ import org.limir.models.entities.Car;
 import org.limir.models.enums.PaymentMethod;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
-import org.limir.models.tcp.Request;
 import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
-import org.limir.utility.ClientSocket;
 import org.limir.models.dto.OrderDTO;
 
 import javafx.scene.control.TableView;
@@ -51,6 +49,9 @@ public class CustomerMenu {
     private TableColumn<Car, String> carCompanyColumn;
 
     @FXML
+    private TableColumn<Car, String> favoriteColumn;
+
+    @FXML
     private Button purchaseButton;
 
     @FXML
@@ -58,6 +59,9 @@ public class CustomerMenu {
 
     @FXML
     private ChoiceBox paymentMethodChoiceBox;
+
+    @FXML
+    private Button refreshButton;
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
@@ -83,23 +87,16 @@ public class CustomerMenu {
 
 
     private void loadCarsFromServer() throws IOException {
-        Request request = new Request();
-        request.setRequestType(RequestType.READ_CARS);
+        Response readCarsResponse = RequestHandler.sendRequest(RequestType.READ_CARS, null);
 
-        ClientSocket.getInstance().getOut().println(new Gson().toJson(request));
-        ClientSocket.getInstance().getOut().flush();
-
-        String answer = ClientSocket.getInstance().getIn().readLine();
-        Response response = new Gson().fromJson(answer, Response.class);
-
-        if (response.getResponseStatus() == ResponseStatus.OK) {
-            List<CarDTO> cars = new Gson().fromJson(response.getResponseData(), new TypeToken<List<CarDTO>>() {
+        if (readCarsResponse.getResponseStatus() == ResponseStatus.OK) {
+            List<CarDTO> cars = new Gson().fromJson(readCarsResponse.getResponseData(), new TypeToken<List<CarDTO>>() {
             }.getType());
 
             ObservableList<CarDTO> carsObserver = FXCollections.observableArrayList(cars);
             carTable.setItems(carsObserver);
         } else {
-            System.out.println("Error loading cars: " + response.getResponseStatus());
+            System.out.println("Error loading cars: " + readCarsResponse.getResponseStatus());
         }
     }
 

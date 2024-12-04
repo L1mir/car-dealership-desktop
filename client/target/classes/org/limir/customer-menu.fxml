@@ -5,26 +5,81 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.CustomerMenu">
    <children>
-      <Label layoutX="32.0" layoutY="95.0" text="Каталог автомобилей">
+      <Label layoutX="14.0" layoutY="92.0" prefHeight="34.0" prefWidth="280.0" text="КАТАЛОГ АВТОМОБИЛЕЙ">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="20.0" />
          </font></Label>
-      <TableView fx:id="carTable" layoutY="127.0" prefHeight="348.0" prefWidth="494.0">
+      <TableView fx:id="carTable" layoutY="127.0" prefHeight="348.0" prefWidth="503.0">
         <columns>
-          <TableColumn fx:id="carYearColumn" minWidth="0.0" prefWidth="81.60003662109375" text="Year" />
-            <TableColumn fx:id="carPriceColumn" text="Price" />
-            <TableColumn fx:id="carStatusColumn" prefWidth="74.39996337890625" text="Status" />
-            <TableColumn fx:id="carCompanyColumn" prefWidth="111.19998779296873" text="Company" />
-          <TableColumn fx:id="carModelColumn" prefWidth="145.5999755859375" text="Model" />
+          <TableColumn fx:id="carYearColumn" minWidth="0.0" prefWidth="54.40002363920212" text="Год" />
+            <TableColumn fx:id="carPriceColumn" prefWidth="108.00000381469727" text="Цена" />
+            <TableColumn fx:id="carStatusColumn" prefWidth="79.20001220703125" text="Статус" />
+            <TableColumn fx:id="carCompanyColumn" prefWidth="100.79997253417969" text="Компания" />
+          <TableColumn fx:id="carModelColumn" prefWidth="96.800048828125" text="Модель" />
+            <TableColumn prefWidth="59.99998779296874" text="♥" />
         </columns>
       </TableView>
-      <Button fx:id="backButton" layoutX="478.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
-      <Button fx:id="purchaseButton" layoutX="419.0" layoutY="95.0" mnemonicParsing="false" onAction="#handlePurchaseButton" prefHeight="26.0" prefWidth="74.0" text="Заказать" />
-      <ChoiceBox fx:id="paymentMethodChoiceBox" layoutX="208.0" layoutY="95.0" prefWidth="150.0" />
+      <Button fx:id="backButton" layoutX="538.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
+      <Button fx:id="refreshButton" layoutX="503.0" layoutY="126.0" mnemonicParsing="false" onAction="#handleRefreshButton" prefHeight="28.0" prefWidth="98.0" text="Обновить">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <HBox layoutX="8.0" layoutY="46.0" prefHeight="34.0" prefWidth="585.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Избранное">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" text="История заказов">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="81.0" text="Компании">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="90.0" text="Диаграммы">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="143.0" text="Стоимость с купоном">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="123.0" text="Экспорт таблицы">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <Button layoutX="471.0" layoutY="8.0" mnemonicParsing="false" text="Профиль" />
+      <VBox layoutX="503.0" layoutY="327.0" prefHeight="148.0" prefWidth="98.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="114.0" text="Заказ авто" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label text="Способ оплаты:" />
+            <ChoiceBox fx:id="paymentMethodChoiceBox" prefHeight="26.0" prefWidth="107.0" />
+            <TextField prefHeight="26.0" prefWidth="134.0" promptText="Купон" />
+            <Button fx:id="purchaseButton" mnemonicParsing="false" onAction="#handlePurchaseButton" prefHeight="52.0" prefWidth="107.0" text="Заказать" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
