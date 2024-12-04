@@ -4,7 +4,6 @@ import org.hibernate.HibernateError;
 import org.limir.dataAccessObjects.OrderDao;
 import org.limir.dataAccessObjects.daoImpl.OrderDaoImpl;
 import org.limir.models.entities.Order;
-import org.limir.models.entities.Payment;
 import org.limir.services.OrderService;
 
 import java.util.List;
@@ -72,5 +71,16 @@ public class OrderServiceImpl implements OrderService {
             error.printStackTrace();
         }
         return order;
+    }
+
+    @Override
+    public List<Order> findOrdersByUsername(String username) {
+        List<Order> orders = null;
+        try {
+            orders = orderDao.findOrdersByUsername(username);
+        } catch (HibernateError error) {
+            error.printStackTrace();
+        }
+        return orders;
     }
 }

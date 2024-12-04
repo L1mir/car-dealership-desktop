@@ -88,4 +88,22 @@ public class OrderDaoImpl implements OrderDao {
         }
         return order;
     }
+
+    @Override
+    public List<Order> findOrdersByUsername(String username) {
+        List<Order> orders = null;
+        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Order> cr = cb.createQuery(Order.class);
+            Root<Order> root = cr.from(Order.class);
+
+            cr.select(root).where(cb.equal(root.get("user").get("username"), username));
+
+            orders = session.createQuery(cr).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
 }

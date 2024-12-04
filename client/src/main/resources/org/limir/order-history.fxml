@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.order.OrderHistory">
+   <children>
+      <TableView fx:id="orderHistoryTable" layoutY="40.0" prefHeight="360.0" prefWidth="600.0">
+        <columns>
+            <TableColumn fx:id="carPriceColumn" prefWidth="95.20001220703125" text="Цена" />
+          <TableColumn fx:id="paymentMethodColumn" prefWidth="100.79998779296875" text="Способ оплаты" />
+            <TableColumn fx:id="companyNameColumn" prefWidth="182.39996337890625" text="Компания" />
+            <TableColumn fx:id="datePaymentColumn" prefWidth="211.20001220703125" text="Дата покупки" />
+        </columns>
+      </TableView>
+      <Label layoutX="169.0" prefHeight="40.0" prefWidth="244.0" text="ИСТОРИЯ ЗАКАЗОВ">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="525.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
+   </children>
+</AnchorPane>

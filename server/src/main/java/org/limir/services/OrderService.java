@@ -15,5 +15,7 @@ public interface OrderService {
     List<Order> showOrders();
 
     Order findOrderById(int id);
+
+    List<Order> findOrdersByUsername(String username);
 }
 

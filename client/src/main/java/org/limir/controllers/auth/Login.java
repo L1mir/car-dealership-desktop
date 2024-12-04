@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.limir.controllers.CustomerMenu;
+import org.limir.controllers.order.OrderHistory;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.CurrentUser;
 import org.limir.models.entities.User;
@@ -45,6 +47,12 @@ public class Login {
 
             if (loggedUserDTO.getUserRole() == UserRole.CUSTOMER) {
                 SceneManager.showScene("customer-menu");
+                CustomerMenu customerMenuController = (CustomerMenu) SceneManager.getController("customer-menu");
+                try {
+                    customerMenuController.reloadCarsFromServer();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (loggedUserDTO.getUserRole() == UserRole.ADMIN) {
                 SceneManager.showScene("admin-menu");
             } else {

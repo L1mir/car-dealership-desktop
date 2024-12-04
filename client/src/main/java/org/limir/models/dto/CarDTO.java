@@ -1,5 +1,8 @@
 package org.limir.models.dto;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import org.limir.models.entities.Car;
 
 import java.math.BigDecimal;
@@ -12,6 +15,7 @@ public class CarDTO {
     private String carStatus;
     private String companyName;
     private Long companyId;
+    private BooleanProperty favorite;
 
     public CarDTO(Car car) {
         this.carId = car.getCar_id();
@@ -20,6 +24,7 @@ public class CarDTO {
         this.price = car.getPrice();
         this.carStatus = car.getCar_status().toString();
         this.companyName = car.getCompany() != null ? car.getCompany().getName() : null;
+        this.favorite = new SimpleBooleanProperty(false);
     }
 
     public Long getCompanyId() {
@@ -76,5 +81,18 @@ public class CarDTO {
 
     public void setCarStatus(String carStatus) {
         this.carStatus = carStatus;
+    }
+
+
+    public boolean isFavorite() {
+        return favorite.get();
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite.set(favorite);
+    }
+
+    public BooleanProperty favoriteProperty() {
+        return favorite;
     }
 }

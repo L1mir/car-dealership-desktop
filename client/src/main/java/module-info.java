@@ -31,4 +31,5 @@ module org.limir.client {
     opens org.limir.controllers.company to javafx.fxml;
     exports org.limir.controllers.auth;
     opens org.limir.controllers.auth to javafx.fxml;
+    opens org.limir.controllers.order to javafx.fxml;
 }

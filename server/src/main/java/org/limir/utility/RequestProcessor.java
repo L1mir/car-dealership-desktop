@@ -7,6 +7,7 @@ import org.limir.enums.PaymentStatus;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.CompanyDTO;
 import org.limir.models.dto.OrderDTO;
+import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.*;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
@@ -58,6 +59,8 @@ public class RequestProcessor {
                 return handleUpdateCar(request);
             case PURCHASE_ORDER:
                 return handlePurchaseOrder(request);
+            case READ_USER_ORDERS:
+                return handleReadUserOrders(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -201,5 +204,12 @@ public class RequestProcessor {
             e.printStackTrace();
             return responseBuilder.createErrorResponse("Error while creating order");
         }
+    }
+
+    private Response handleReadUserOrders(Request request) {
+        UserDTO userDTO = RequestDeserializer.deserializeUserDto(request);
+        List<Order> orders = orderService.findOrdersByUsername(userDTO.getUsername());
+        List<OrderDTO> orderDTOS = orders.stream().map(OrderDTO::new).collect(Collectors.toList());
+        return responseBuilder.createSuccessResponse("List of cars", orderDTOS);
     }
 }

@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.limir.controllers.order.OrderHistory;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.CurrentUser;
 import org.limir.models.dto.CarDTO;
@@ -49,9 +51,6 @@ public class CustomerMenu {
     private TableColumn<Car, String> carCompanyColumn;
 
     @FXML
-    private TableColumn<Car, String> favoriteColumn;
-
-    @FXML
     private Button purchaseButton;
 
     @FXML
@@ -61,7 +60,10 @@ public class CustomerMenu {
     private ChoiceBox paymentMethodChoiceBox;
 
     @FXML
-    private Button refreshButton;
+    private Button orderHistoryButton;
+
+    @FXML
+    private TableColumn<CarDTO, Boolean> favoriteColumn;
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
@@ -76,6 +78,9 @@ public class CustomerMenu {
         carStatusColumn.setCellValueFactory(new PropertyValueFactory<>("carStatus"));
         carCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("companyName"));
 
+        favoriteColumn.setCellValueFactory(cellData -> cellData.getValue().favoriteProperty());
+        favoriteColumn.setCellFactory(tc -> new CheckBoxTableCell<>());
+
         paymentMethodChoiceBox.getItems().addAll("CASH", "CARD", "CREDIT");
 
         try {
@@ -85,6 +90,9 @@ public class CustomerMenu {
         }
     }
 
+    public void reloadCarsFromServer() throws IOException {
+        loadCarsFromServer();
+    }
 
     private void loadCarsFromServer() throws IOException {
         Response readCarsResponse = RequestHandler.sendRequest(RequestType.READ_CARS, null);
@@ -97,58 +105,6 @@ public class CustomerMenu {
             carTable.setItems(carsObserver);
         } else {
             System.out.println("Error loading cars: " + readCarsResponse.getResponseStatus());
-        }
-    }
-
-    @FXML
-    private void handleOrderButton(ActionEvent event) {
-        CarDTO selectedCar = carTable.getSelectionModel().getSelectedItem();
-
-        String selectedPaymentMethod = (String) paymentMethodChoiceBox.getValue();
-        if (selectedPaymentMethod == null) {
-            System.out.println("Выберите метод оплаты.");
-            return;
-        }
-
-        if (selectedCar == null) {
-            System.out.println("Выберите машину для заказа.");
-            return;
-        }
-
-        UserDTO currentUser = CurrentUser.getUser();
-
-        if (currentUser == null) {
-            System.out.println("Пользователь не авторизован!");
-            return;
-        }
-
-        try {
-            PaymentMethod paymentMethod = PaymentMethod.valueOf(selectedPaymentMethod.toUpperCase());
-
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setCartId(selectedCar.getCarId());
-            orderDTO.setCompanyId(selectedCar.getCompanyId());
-            orderDTO.setUserName(currentUser.getUsername());
-            orderDTO.setCompanyName(selectedCar.getCompanyName());
-            orderDTO.setTotalPrice(selectedCar.getPrice());
-            orderDTO.setDate(new Date());
-            orderDTO.setPaymentMethod(paymentMethod);
-
-            Response createOrderResponse = RequestHandler.sendRequest(RequestType.CREATE_ORDER, orderDTO);
-            Response createPaymentResponse = RequestHandler.sendRequest(RequestType.CREATE_PAYMENT, orderDTO);
-
-            if (createOrderResponse.getResponseStatus() == ResponseStatus.OK) {
-                System.out.println("Заказ успешно создан!");
-            } else {
-                System.out.println("Ошибка создания заказа: " + createOrderResponse.getResponseStatus());
-            }
-            if (createPaymentResponse.getResponseStatus() == ResponseStatus.OK) {
-                System.out.println("Оплата успешно проведена!");
-            } else {
-                System.out.println("Ошибка создания оплаты: " + createPaymentResponse.getResponseStatus());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -202,4 +158,18 @@ public class CustomerMenu {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleOrderHistoryButton(ActionEvent event) {
+        SceneManager.showScene("order-history");
+
+        OrderHistory orderHistoryController = (OrderHistory) SceneManager.getController("order-history");
+        try {
+            orderHistoryController.reloadOrderHistory();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
