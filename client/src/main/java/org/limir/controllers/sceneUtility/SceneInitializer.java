@@ -12,5 +12,6 @@ public class SceneInitializer {
         SceneManager.addScene("update-car", "/org/limir/update-car.fxml");
         SceneManager.addScene("order-history", "/org/limir/order-history.fxml");
         SceneManager.addScene("avg-company-price", "/org/limir/avg-company-price.fxml");
+        SceneManager.addScene("read-companies", "/org/limir/read-companies.fxml");
     }
 }

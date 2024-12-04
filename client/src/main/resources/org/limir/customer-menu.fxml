@@ -41,12 +41,12 @@
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="123.0" text="Компании">
+            <Button fx:id="readCompaniesButton" mnemonicParsing="false" onAction="#handleReadCompaniesButton" prefHeight="60.0" prefWidth="123.0" text="Компании">
                <font>
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button fx:id="diagramButton" mnemonicParsing="false" onAction="#handleDiagramButton" prefHeight="60.0" prefWidth="123.0" text="Диаграммы">
+            <Button fx:id="diagramButton" mnemonicParsing="false" onAction="#handleDiagramButton" prefHeight="60.0" prefWidth="123.0" text="Цена по компаниям">
                <font>
                   <Font size="11.0" />
                </font>
@@ -56,7 +56,7 @@
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="123.0" text="Экспорт таблицы">
+            <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExportButton" prefHeight="70.0" prefWidth="123.0" text="Экспорт таблицы">
                <font>
                   <Font size="11.0" />
                </font>

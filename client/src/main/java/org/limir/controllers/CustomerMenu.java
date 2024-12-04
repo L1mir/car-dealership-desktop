@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import org.limir.controllers.order.OrderHistory;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.CurrentUser;
@@ -23,6 +24,9 @@ import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 import org.limir.models.dto.OrderDTO;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -67,6 +71,13 @@ public class CustomerMenu {
 
     @FXML
     private Button diagramButton;
+
+    @FXML
+    private Button readCompaniesButton;
+
+    @FXML
+    private Button exportButton;
+
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
@@ -209,5 +220,41 @@ public class CustomerMenu {
     @FXML
     private void handleDiagramButton(ActionEvent event) {
         SceneManager.showScene("avg-company-price");
+    }
+
+    @FXML
+    private void handleReadCompaniesButton(ActionEvent event) {
+        SceneManager.showScene("read-companies");
+    }
+
+    @FXML
+    private void handleExportButton(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write("Model,Year,Price,Status,Company");
+                writer.newLine();
+
+                ObservableList<CarDTO> cars = carTable.getItems();
+
+                for (CarDTO car : cars) {
+                    writer.write(String.format("%s,%d,%.2f,%s,%s",
+                            car.getModel(),
+                            car.getYear(),
+                            car.getPrice(),
+                            car.getCarStatus(),
+                            car.getCompanyName()));
+                    writer.newLine();
+                }
+
+                System.out.println("Данные успешно экспортированы.");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Ошибка при экспорте данных.");
+            }
+        }
     }
 }

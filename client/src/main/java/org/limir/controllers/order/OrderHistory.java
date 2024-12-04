@@ -12,7 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.CurrentUser;
-import org.limir.models.dto.CarDTO;
 import org.limir.models.dto.OrderDTO;
 import org.limir.models.dto.UserDTO;
 import org.limir.models.entities.Car;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.company.ReadCompany">
+   <children>
+      <TableView fx:id="companyTable" layoutY="42.0" prefHeight="358.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="companyNameColumn" prefWidth="100.79998779296875" text="Название" />
+          <TableColumn fx:id="companyAddressColumn" prefWidth="107.20001220703125" text="Адрес" />
+            <TableColumn fx:id="companyPhoneColumn" prefWidth="113.60003662109375" text="Телефон" />
+            <TableColumn fx:id="companyEmailColumn" prefWidth="141.60003662109375" text="Почта" />
+            <TableColumn fx:id="companySiteColumn" prefWidth="139.199951171875" text="Веб сайт" />
+        </columns>
+      </TableView>
+      <Label layoutX="221.0" prefHeight="40.0" prefWidth="157.0" text="КОМПАНИИ">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="534.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
+   </children>
+</AnchorPane>
