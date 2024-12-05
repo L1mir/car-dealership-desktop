@@ -1,10 +1,12 @@
 package org.limir.dataAccessObjects.daoImpl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.limir.dataAccessObjects.CarDao;
 import org.limir.models.entities.Car;
+import org.limir.models.entities.Company;
 import org.limir.sessionFactory.HibernateSessionFactory;
 
 import java.util.List;
@@ -89,6 +91,10 @@ public class CarDaoImpl implements CarDao {
             car = session.createQuery("FROM Car WHERE model = :model", Car.class)
                     .setParameter("model", model)
                     .uniqueResult();
+
+            if (car != null) {
+                Hibernate.initialize(car.getCompany());
+            }
         } catch (HibernateException e) {
             System.out.println("Exception: " + e);
         }

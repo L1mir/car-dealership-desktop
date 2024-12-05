@@ -13,5 +13,8 @@ public class SceneInitializer {
         SceneManager.addScene("order-history", "/org/limir/order-history.fxml");
         SceneManager.addScene("avg-company-price", "/org/limir/avg-company-price.fxml");
         SceneManager.addScene("read-companies", "/org/limir/read-companies.fxml");
+        SceneManager.addScene("price-after-coupon", "/org/limir/price-after-coupon.fxml");
+        SceneManager.addScene("favorite-cars", "/org/limir/favorite-cars.fxml");
+        SceneManager.addScene("user-profile", "/org/limir/user-profile.fxml");
     }
 }

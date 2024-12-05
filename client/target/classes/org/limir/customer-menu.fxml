@@ -28,10 +28,10 @@
         </columns>
       </TableView>
       <Button fx:id="backButton" layoutX="546.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
-      <Button layoutX="480.0" layoutY="8.0" mnemonicParsing="false" text="Профиль" />
+      <Button fx:id="profileButton" layoutX="480.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleProfileButton" text="Профиль" />
       <VBox layoutX="480.0" layoutY="102.0" prefHeight="372.0" prefWidth="123.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="123.0" text="Избранное">
+            <Button fx:id="favoriteCarsButton" mnemonicParsing="false" onAction="#handleFavoriteCarsButton" prefHeight="70.0" prefWidth="123.0" text="Избранное">
                <font>
                   <Font size="11.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="63.0" prefWidth="127.0" text="Стоимость с купоном">
+            <Button fx:id="priceAfterCouponeButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePriceAfterCouponButton" prefHeight="63.0" prefWidth="127.0" text="Стоимость с купоном">
                <font>
                   <Font size="11.0" />
                </font>

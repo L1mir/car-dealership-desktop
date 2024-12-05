@@ -1,0 +1,69 @@
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+.label {
+    -fx-text-fill: #333;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.vbox {
+    -fx-spacing: 10px;
+}
+
+.hbox {
+    -fx-spacing: 10px;
+}
+
+/* Специальные стили */
+#carTable {
+    -fx-font-size: 12px;
+}
+
+#backButton {
+    -fx-background-color: #2dc75d;
+}
+
+#paymentMethodChoiceBox {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+}
+
+#couponTextField {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+}
+
+#purchaseButton {
+    -fx-background-color: #2196F3;
+}
+
+#purchaseButton:hover {
+    -fx-background-color: #1976D2;
+}
+
+#exportButton {
+    -fx-background-color: #FF9800;
+}

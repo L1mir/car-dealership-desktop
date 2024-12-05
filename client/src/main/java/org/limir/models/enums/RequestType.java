@@ -7,7 +7,7 @@ public enum RequestType {
     DELETE_CAR,
     UPDATE_CAR,
     READ_CARS,
-    READ_CAR,
+    READ_CAR_BY_MODEL,
     ADD_COMPANY,
     READ_COMPANY,
     READ_COMPANIES,

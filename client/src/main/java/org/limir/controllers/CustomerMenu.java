@@ -10,7 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import org.limir.controllers.favorite.FavoriteCar;
 import org.limir.controllers.order.OrderHistory;
+import org.limir.controllers.profile.UserProfile;
 import org.limir.controllers.sceneUtility.SceneManager;
 import org.limir.models.CurrentUser;
 import org.limir.models.dto.CarDTO;
@@ -78,6 +80,14 @@ public class CustomerMenu {
     @FXML
     private Button exportButton;
 
+    @FXML
+    private Button priceAfterCouponeButton;
+
+    @FXML
+    private Button favoriteCarsButton;
+
+    @FXML
+    private Button profileButton;
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
@@ -93,7 +103,13 @@ public class CustomerMenu {
         carCompanyColumn.setCellValueFactory(new PropertyValueFactory<>("companyName"));
 
         favoriteColumn.setCellValueFactory(cellData -> cellData.getValue().favoriteProperty());
-        favoriteColumn.setCellFactory(tc -> new CheckBoxTableCell<>());
+        favoriteColumn.setCellFactory(tc -> new CheckBoxTableCell<>(index -> {
+            CarDTO car = carTable.getItems().get(index);
+            return car.favoriteProperty();
+        }));
+
+        carTable.setEditable(true);
+        favoriteColumn.setEditable(true);
 
         paymentMethodChoiceBox.getItems().addAll("CASH", "CARD", "CREDIT");
 
@@ -228,6 +244,11 @@ public class CustomerMenu {
     }
 
     @FXML
+    private void handlePriceAfterCouponButton(ActionEvent event) {
+        SceneManager.showScene("price-after-coupon");
+    }
+
+    @FXML
     private void handleExportButton(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
@@ -257,4 +278,27 @@ public class CustomerMenu {
             }
         }
     }
+
+    @FXML
+    private void handleFavoriteCarsButton(ActionEvent event) {
+        FavoriteCar controller = (FavoriteCar) SceneManager.getController("favorite-cars");
+        if (controller != null) {
+            controller.reloadFavoriteCars(carTable.getItems());
+        }
+        SceneManager.showScene("favorite-cars");
+    }
+
+    @FXML
+    private void handleProfileButton(ActionEvent event) {
+        SceneManager.showScene("user-profile");
+
+        UserProfile userProfile = (UserProfile) SceneManager.getController("user-profile");
+
+        try {
+            userProfile.reloadUser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package org.limir.utility;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.limir.enums.OrderStatus;
@@ -61,6 +62,8 @@ public class RequestProcessor {
                 return handlePurchaseOrder(request);
             case READ_USER_ORDERS:
                 return handleReadUserOrders(request);
+            case READ_CAR_BY_MODEL:
+                return handleReadCarByModel(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -211,5 +214,12 @@ public class RequestProcessor {
         List<Order> orders = orderService.findOrdersByUsername(userDTO.getUsername());
         List<OrderDTO> orderDTOS = orders.stream().map(OrderDTO::new).collect(Collectors.toList());
         return responseBuilder.createSuccessResponse("List of cars", orderDTOS);
+    }
+
+    private Response handleReadCarByModel(Request request) {
+        String model = RequestDeserializer.deserializeModel(request);
+        Car car = carService.findCarByModel(model);
+        CarDTO carDTO = new CarDTO(car);
+        return responseBuilder.createSuccessResponse("Car read successfully", carDTO);
     }
 }

@@ -1,6 +1,8 @@
 package org.limir.models.dto;
 
+import org.limir.enums.Gender;
 import org.limir.enums.UserRole;
+import org.limir.models.entities.User;
 
 public class UserDTO {
     private String username;
@@ -8,16 +10,24 @@ public class UserDTO {
     private String phone;
     private String address;
     private UserRole userRole;
+    private String firstName;
+    private String lastName;
+    private int age;
+    private Gender gender;
 
     public UserDTO() {
     }
 
-    public UserDTO(String username, String email, String phone, String address, UserRole userRole) {
-        this.username = username;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.userRole = userRole;
+    public UserDTO(User user) {
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.address = user.getAddress();
+        this.userRole = user.getUser_role();
+        this.firstName = user.getPerson().getFirst_name();
+        this.lastName = user.getPerson().getLast_name();
+        this.age = user.getPerson().getAge();
+        this.gender = user.getPerson().getGender();
     }
 
     public String getUsername() {

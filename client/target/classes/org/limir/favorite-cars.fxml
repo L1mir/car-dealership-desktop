@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.favorite.FavoriteCar">
+   <children>
+      <TableView fx:id="favoriteCarTable" layoutY="46.0" prefHeight="354.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="favoriteCarModelColumn" prefWidth="143.20001220703125" text="Модель" />
+          <TableColumn fx:id="favoriteCarYearColumn" minWidth="3.199951171875" prefWidth="57.60003662109375" text="Год" />
+            <TableColumn fx:id="favoriteCarStatusColumn" prefWidth="98.4000244140625" text="Статус" />
+            <TableColumn fx:id="favoriteCarCompanyColumn" prefWidth="199.20001220703125" text="Компания" />
+            <TableColumn fx:id="favoriteCarPriceColumn" minWidth="6.39996337890625" prefWidth="103.99993896484375" text="Цена" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

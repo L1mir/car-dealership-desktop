@@ -59,13 +59,7 @@ public class User implements Serializable {
     }
 
     public UserDTO toDTO() {
-        return new UserDTO(
-                this.username,
-                this.email,
-                this.phone,
-                this.address,
-                this.user_role
-        );
+        return new UserDTO(this);
     }
 
     @Override
