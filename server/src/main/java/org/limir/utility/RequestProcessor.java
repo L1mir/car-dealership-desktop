@@ -64,6 +64,8 @@ public class RequestProcessor {
                 return handleReadUserOrders(request);
             case READ_CAR_BY_MODEL:
                 return handleReadCarByModel(request);
+            case READ_ORDERS:
+                return handleReadOrders(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -221,5 +223,11 @@ public class RequestProcessor {
         Car car = carService.findCarByModel(model);
         CarDTO carDTO = new CarDTO(car);
         return responseBuilder.createSuccessResponse("Car read successfully", carDTO);
+    }
+
+    private Response handleReadOrders(Request request) {
+        List<Order> orders = orderService.showOrders();
+        List<OrderDTO> orderDTOS = orders.stream().map(OrderDTO::new).collect(Collectors.toList());
+        return responseBuilder.createSuccessResponse("List of cars", orderDTOS);
     }
 }

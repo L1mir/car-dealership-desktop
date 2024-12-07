@@ -11,6 +11,7 @@ import org.limir.models.CurrentUser;
 import org.limir.models.dto.UserDTO;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.limir.models.enums.UserRole;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,7 +55,12 @@ public class UserProfile {
 
     @FXML
     private void handleBackButton(ActionEvent event) {
-        SceneManager.showScene("customer-menu");
+        if (CurrentUser.getUser().getUserRole() == UserRole.ADMIN) {
+            SceneManager.showScene("admin-menu");
+        } else {
+            SceneManager.showScene("customer-menu");
+        }
+
     }
 
     public void reloadUser() throws IOException {

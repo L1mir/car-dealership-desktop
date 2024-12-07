@@ -20,11 +20,11 @@
       <TableView fx:id="carTable" layoutY="102.0" prefHeight="372.0" prefWidth="480.0">
         <columns>
           <TableColumn fx:id="carYearColumn" minWidth="0.0" prefWidth="54.40002363920212" text="Год" />
-            <TableColumn fx:id="carPriceColumn" prefWidth="108.00000381469727" text="Цена" />
-            <TableColumn fx:id="carStatusColumn" prefWidth="84.79998779296875" text="Статус" />
-            <TableColumn fx:id="carCompanyColumn" prefWidth="96.0" text="Компания" />
-          <TableColumn fx:id="carModelColumn" prefWidth="96.800048828125" text="Модель" />
-            <TableColumn fx:id="favoriteColumn" prefWidth="36.800018310546875" text="♥" />
+            <TableColumn fx:id="carPriceColumn" prefWidth="81.59998321533203" text="Цена" />
+            <TableColumn fx:id="carStatusColumn" prefWidth="89.60003662109375" text="Статус" />
+            <TableColumn fx:id="carCompanyColumn" prefWidth="118.39996337890625" text="Компания" />
+          <TableColumn fx:id="carModelColumn" prefWidth="88.79998779296875" text="Модель" />
+            <TableColumn fx:id="favoriteColumn" prefWidth="46.4000244140625" text="♥" />
         </columns>
       </TableView>
       <Button fx:id="backButton" layoutX="546.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />

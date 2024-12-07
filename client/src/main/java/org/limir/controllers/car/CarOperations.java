@@ -2,6 +2,7 @@ package org.limir.controllers.car;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import org.limir.controllers.CustomerMenu;
 import org.limir.controllers.sceneUtility.SceneManager;
 
 import java.io.IOException;
@@ -48,7 +49,11 @@ public class CarOperations {
                     }
                     break;
                 case "Просмотреть список автомобилей":
-                    System.out.println("Просмотр списка автомобилей...");
+                    try {
+                        readCars();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
             }
         });
@@ -64,5 +69,15 @@ public class CarOperations {
 
     public void deleteCar() throws IOException {
         SceneManager.showScene("delete-car");
+    }
+
+    public void readCars() throws IOException {
+        SceneManager.showScene("read-cars");
+        ReadCars readCarsController = (ReadCars) SceneManager.getController("read-cars");
+        try {
+            readCarsController.reloadCarsFromServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

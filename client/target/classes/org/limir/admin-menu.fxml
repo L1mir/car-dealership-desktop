@@ -18,12 +18,12 @@
       <Button fx:id="companyExecuteButton" layoutX="181.0" layoutY="130.0" mnemonicParsing="false" text="Выполнить" />
       <VBox layoutX="392.0" layoutY="89.0" prefHeight="200.0" prefWidth="116.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="153.0" text="Отчет по заказам" />
+            <Button fx:id="saveOrderFileButton" mnemonicParsing="false" onAction="#handleSaveOrderFileButton" prefHeight="26.0" prefWidth="153.0" text="Отчет по заказам" />
          </children>
       </VBox>
       <HBox layoutX="392.0" layoutY="52.0" prefHeight="26.0" prefWidth="116.0">
          <children>
-            <Button mnemonicParsing="false" text="Профиль" />
+            <Button fx:id="profileButton" mnemonicParsing="false" onAction="#handleProfileButton" text="Профиль" />
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButton" text="Назад" />
          </children>
       </HBox>
