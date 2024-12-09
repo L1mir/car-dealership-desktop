@@ -14,4 +14,6 @@ public interface PersonDao {
     List<Person> showPeople();
 
     Person findPersonById(int id);
+
+    Person findPersonByName(String name);
 }

@@ -3,10 +3,7 @@ package org.limir.utility;
 import com.google.gson.Gson;
 import org.limir.models.dto.OrderDTO;
 import org.limir.models.dto.UserDTO;
-import org.limir.models.entities.Car;
-import org.limir.models.entities.Company;
-import org.limir.models.entities.Person;
-import org.limir.models.entities.User;
+import org.limir.models.entities.*;
 import org.limir.models.tcp.Request;
 
 public class RequestDeserializer {
@@ -43,6 +40,18 @@ public class RequestDeserializer {
 
     public static UserDTO deserializeUserDto(Request request) {
         return gson.fromJson(request.getRequestMessage(), UserDTO.class);
+    }
+
+    public static String deserializeName(Request request) {
+        return gson.fromJson(request.getRequestMessage(), String.class);
+    }
+
+    public static Employee deserializeEmployee(Request request) {
+        return gson.fromJson(request.getRequestMessage(), Employee.class);
+    }
+
+    public static Long deserializeEmployeeId(Request request) {
+        return gson.fromJson(request.getRequestMessage(), Long.class);
     }
 }
 

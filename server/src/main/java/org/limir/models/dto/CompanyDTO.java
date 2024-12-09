@@ -1,5 +1,7 @@
 package org.limir.models.dto;
 
+import org.limir.models.entities.Company;
+
 public class CompanyDTO {
     private Long companyId;
     private String name;
@@ -7,6 +9,19 @@ public class CompanyDTO {
     private String phone;
     private String email;
     private String website;
+
+    public CompanyDTO() {
+
+    }
+
+    public CompanyDTO(Company company) {
+        this.companyId = company.getCompany_id();
+        this.name = company.getName();
+        this.address = company.getAddress();
+        this.phone = company.getPhone();
+        this.email = company.getEmail();
+        this.website = company.getWebsite();
+    }
 
     public Long getCompanyId() {
         return companyId;

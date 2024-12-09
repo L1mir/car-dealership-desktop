@@ -6,11 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-import org.limir.controllers.favorite.FavoriteCar;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
 import org.limir.controllers.order.OrderHistory;
 import org.limir.controllers.profile.UserProfile;
 import org.limir.controllers.sceneUtility.SceneManager;
@@ -25,11 +27,14 @@ import org.limir.models.enums.ResponseStatus;
 import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 import org.limir.models.dto.OrderDTO;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import java.io.IOException;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -84,7 +89,7 @@ public class CustomerMenu {
     private Button priceAfterCouponeButton;
 
     @FXML
-    private Button favoriteCarsButton;
+    private Button pdfOrderButton;
 
     @FXML
     private Button profileButton;
@@ -142,21 +147,26 @@ public class CustomerMenu {
     private void handlePurchaseButton(ActionEvent event) {
         CarDTO selectedCar = carTable.getSelectionModel().getSelectedItem();
 
-        String selectedPaymentMethod = (String) paymentMethodChoiceBox.getValue();
-        if (selectedPaymentMethod == null) {
-            System.out.println("Выберите метод оплаты.");
+        if (selectedCar == null) {
+            showAlert(Alert.AlertType.WARNING, "Выберите машину", "Выберите машину для заказа.");
             return;
         }
 
-        if (selectedCar == null) {
-            System.out.println("Выберите машину для заказа.");
+        if ("SOLD".equalsIgnoreCase(selectedCar.getCarStatus())) {
+            showAlert(Alert.AlertType.WARNING, "Машина продана", "Эта машина уже продана. Выберите другую машину.");
+            return;
+        }
+
+        String selectedPaymentMethod = (String) paymentMethodChoiceBox.getValue();
+        if (selectedPaymentMethod == null) {
+            showAlert(Alert.AlertType.WARNING, "Метод оплаты", "Выберите метод оплаты.");
             return;
         }
 
         UserDTO currentUser = CurrentUser.getUser();
 
         if (currentUser == null) {
-            System.out.println("Пользователь не авторизован!");
+            showAlert(Alert.AlertType.ERROR, "Ошибка авторизации", "Пользователь не авторизован!");
             return;
         }
 
@@ -165,14 +175,13 @@ public class CustomerMenu {
         try {
             coupon = Coupon.valueOf(enteredCoupon);
         } catch (IllegalArgumentException e) {
-            System.out.println("Неверный купон.");
+            showAlert(Alert.AlertType.WARNING, "Неверный купон", "Купон недействителен. Проверьте правильность введённого кода.");
         }
 
         if (coupon != null) {
-            System.out.println("Купон принят: " + coupon);
             applyCoupon(selectedCar, coupon);
+            showAlert(Alert.AlertType.INFORMATION, "Купон принят", "Купон успешно применён: " + coupon);
         }
-
 
         try {
             PaymentMethod paymentMethod = PaymentMethod.valueOf(selectedPaymentMethod.toUpperCase());
@@ -189,19 +198,24 @@ public class CustomerMenu {
             Response purchaseOrderResponse = RequestHandler.sendRequest(RequestType.PURCHASE_ORDER, orderDTO);
 
             if (purchaseOrderResponse.getResponseStatus() == ResponseStatus.OK) {
-                System.out.println("Заказ успешно создан!");
+                showAlert(Alert.AlertType.INFORMATION, "Успешный заказ", "Заказ успешно создан!");
             } else {
-                System.out.println("Ошибка создания заказа: " + purchaseOrderResponse.getResponseStatus());
-            }
-            if (purchaseOrderResponse.getResponseStatus() == ResponseStatus.OK) {
-                System.out.println("Оплата успешно проведена!");
-            } else {
-                System.out.println("Ошибка создания оплаты: " + purchaseOrderResponse.getResponseStatus());
+                showAlert(Alert.AlertType.ERROR, "Ошибка заказа", "Ошибка создания заказа: " + purchaseOrderResponse.getResponseStatus());
             }
         } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Ошибка", "Произошла ошибка: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
     private void applyCoupon(CarDTO selectedCar, Coupon coupon) {
         switch (coupon) {
@@ -280,13 +294,65 @@ public class CustomerMenu {
     }
 
     @FXML
-    private void handleFavoriteCarsButton(ActionEvent event) {
-        FavoriteCar controller = (FavoriteCar) SceneManager.getController("favorite-cars");
-        if (controller != null) {
-            controller.reloadFavoriteCars(carTable.getItems());
+    private void handlePdfOrderButton(ActionEvent event) {
+        try {
+            Response readOrderResponse = RequestHandler.sendRequest(RequestType.READ_ORDERS, null);
+
+            if (readOrderResponse.getResponseStatus() == ResponseStatus.OK) {
+                List<OrderDTO> orderDTOS = new Gson().fromJson(readOrderResponse.getResponseData(), new TypeToken<List<OrderDTO>>() {}.getType());
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save PDF File");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+                File file = fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+
+                if (file != null) {
+                    PDDocument document = new PDDocument();
+
+                    PDPage page = new PDPage();
+                    document.addPage(page);
+
+                    try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                        contentStream.beginText();
+                        contentStream.setFont(PDType1Font.HELVETICA, 12);
+                        contentStream.setLeading(14.5f);
+                        contentStream.newLineAtOffset(50, 750);
+
+                        contentStream.showText("Orders Report");
+                        contentStream.newLine();
+                        contentStream.newLine();
+
+                        for (OrderDTO order : orderDTOS) {
+                            contentStream.showText("Total Price: " + order.getTotalPrice());
+                            contentStream.newLine();
+                            contentStream.showText("Payment Method: " + order.getPaymentMethod());
+                            contentStream.newLine();
+                            contentStream.showText("Company Name: " + order.getCompanyName());
+                            contentStream.newLine();
+                            contentStream.showText("Date: " + order.getDate());
+                            contentStream.newLine();
+                            contentStream.newLine();
+                        }
+
+                        contentStream.endText();
+                    }
+
+                    document.save(file);
+                    document.close();
+
+                    System.out.println("Orders exported to PDF: " + file.getAbsolutePath());
+                } else {
+                    System.out.println("File save operation was canceled.");
+                }
+            } else {
+                System.out.println("Error loading orders: " + readOrderResponse.getResponseStatus());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error creating PDF: " + e.getMessage());
         }
-        SceneManager.showScene("favorite-cars");
     }
+
 
     @FXML
     private void handleProfileButton(ActionEvent event) {

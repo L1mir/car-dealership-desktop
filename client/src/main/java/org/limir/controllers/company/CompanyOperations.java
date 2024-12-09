@@ -40,10 +40,18 @@ public class CompanyOperations {
                     System.out.println("Редактирование компании...");
                     break;
                 case "Удалить компанию":
-                    System.out.println("Удаление компании...");
+                    try {
+                        deleteCompany();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "Просмотреть список компаний":
-                    System.out.println("Просмотр списка компаний...");
+                    try {
+                        readCompanies();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
             }
         });
@@ -51,5 +59,19 @@ public class CompanyOperations {
 
     private void addCompany() throws IOException {
         SceneManager.showScene("add-company");
+    }
+
+    public void deleteCompany() throws IOException {
+        SceneManager.showScene("delete-company");
+    }
+
+    public void readCompanies() throws IOException {
+        SceneManager.showScene("read-companies");
+        ReadCompany readCompaniesController = (ReadCompany) SceneManager.getController("read-companies");
+        try {
+            readCompaniesController.reloadCompaniesFromServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

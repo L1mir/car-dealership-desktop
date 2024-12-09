@@ -76,4 +76,16 @@ public class PersonServiceImpl implements PersonService {
         }
         return person;
     }
+
+    @Override
+    public Person findPersonByName(String name) {
+        Person person = null;
+
+        try {
+            person = personDao.findPersonByName(name);
+        } catch (HibernateError error) {
+            error.printStackTrace();
+        }
+        return person;
+    }
 }

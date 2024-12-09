@@ -11,10 +11,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.limir.controllers.sceneUtility.SceneManager;
+import org.limir.models.CurrentUser;
 import org.limir.models.dto.CompanyDTO;
 import org.limir.models.entities.Company;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
+import org.limir.models.enums.UserRole;
 import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 
@@ -45,7 +47,11 @@ public class ReadCompany {
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
-        SceneManager.showScene("customer-menu");
+        if (CurrentUser.getUser().getUserRole() == UserRole.ADMIN) {
+            SceneManager.showScene("admin-menu");
+        } else {
+            SceneManager.showScene("customer-menu");
+        }
     }
 
     @FXML
@@ -61,6 +67,10 @@ public class ReadCompany {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void reloadCompaniesFromServer() throws IOException {
+        loadCompaniesFromServer();
     }
 
     private void loadCompaniesFromServer() throws IOException {

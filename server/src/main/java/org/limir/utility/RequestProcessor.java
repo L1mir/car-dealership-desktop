@@ -1,14 +1,10 @@
 package org.limir.utility;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.limir.enums.OrderStatus;
 import org.limir.enums.PaymentStatus;
-import org.limir.models.dto.CarDTO;
-import org.limir.models.dto.CompanyDTO;
-import org.limir.models.dto.OrderDTO;
-import org.limir.models.dto.UserDTO;
+import org.limir.models.dto.*;
 import org.limir.models.entities.*;
 import org.limir.models.tcp.Request;
 import org.limir.models.tcp.Response;
@@ -29,6 +25,7 @@ public class RequestProcessor {
     private CompanyService companyService;
     private OrderService orderService;
     private PaymentService paymentService;
+    private EmployeeService employeeService;
 
     public RequestProcessor() {
         personService = new PersonServiceImpl();
@@ -38,6 +35,7 @@ public class RequestProcessor {
         responseBuilder = new ResponseBuilder();
         orderService = new OrderServiceImpl();
         paymentService = new PaymentServiceImpl();
+        employeeService = new EmployeeServiceImpl();
     }
 
     public Response processRequest(Request request) {
@@ -49,7 +47,7 @@ public class RequestProcessor {
             case ADD_CAR:
                 return handleAddCar(request);
             case READ_CARS:
-                return handleReadCars();
+                return handleReadCars(request);
             case ADD_COMPANY:
                 return handleAddCompany(request);
             case READ_COMPANIES:
@@ -66,6 +64,20 @@ public class RequestProcessor {
                 return handleReadCarByModel(request);
             case READ_ORDERS:
                 return handleReadOrders(request);
+            case FIND_COMPANY_BY_NAME:
+                return handleFindCompanyByName(request);
+            case FIND_PERSON_BY_SURNAME:
+                return handleFindPersonByName(request);
+            case ADD_EMPLOYEE:
+                return handleAddEmployee(request);
+            case READ_EMPLOYEES:
+                return handleReadEmployees(request);
+            case DELETE_COMPANY_BY_NAME:
+                return handleDeleteCompanyByName(request);
+            case DELETE_EMPLOYEE:
+                return handleDeleteEmployee(request);
+            case READ_USERS:
+                return handleReadUsers(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -102,7 +114,7 @@ public class RequestProcessor {
         return responseBuilder.createSuccessResponse("Car added successfully");
     }
 
-    private Response handleReadCars() {
+    private Response handleReadCars(Request request) {
         List<Car> cars = carService.showCars();
         List<CarDTO> carDTOs = cars.stream().map(CarDTO::new).collect(Collectors.toList());
         return responseBuilder.createSuccessResponse("List of cars", carDTOs);
@@ -229,5 +241,51 @@ public class RequestProcessor {
         List<Order> orders = orderService.showOrders();
         List<OrderDTO> orderDTOS = orders.stream().map(OrderDTO::new).collect(Collectors.toList());
         return responseBuilder.createSuccessResponse("List of cars", orderDTOS);
+    }
+
+    private Response handleFindCompanyByName(Request request) {
+        String name = RequestDeserializer.deserializeName(request);
+        Company company = companyService.findCompanyByName(name);
+        CompanyDTO companyDTO = new CompanyDTO(company);
+        return responseBuilder.createSuccessResponse("Company read successfully", companyDTO);
+    }
+
+    private Response handleFindPersonByName(Request request) {
+        String name = RequestDeserializer.deserializeName(request);
+        Person person = personService.findPersonByName(name);
+        PersonDTO personDTO = new PersonDTO(person);
+        return responseBuilder.createSuccessResponse("Person read successfully", personDTO);
+    }
+
+    private Response handleAddEmployee(Request request) {
+        Employee employee = RequestDeserializer.deserializeEmployee(request);
+        employeeService.addEmployee(employee);
+        return responseBuilder.createSuccessResponse("Employee added successfully");
+    }
+
+    private Response handleReadEmployees(Request request) {
+        List<Employee> employees = employeeService.showEmployee();
+        List<EmployeeDTO> employeeDTOS = employees.stream().map(EmployeeDTO::new).collect(Collectors.toList());
+        return responseBuilder.createSuccessResponse("List of cars", employeeDTOS);
+    }
+
+    private Response handleDeleteCompanyByName(Request request) {
+        String name = RequestDeserializer.deserializeName(request);
+        Company company = companyService.findCompanyByName(name);
+        companyService.deleteCompany(company.getCompany_id());
+        return responseBuilder.createSuccessResponse("Car deleted successfully");
+    }
+
+    private Response handleDeleteEmployee(Request request) {
+        Long employeeId = RequestDeserializer.deserializeEmployeeId(request);
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        employeeService.deleteEmployee(employee.getEmployee_id());
+        return responseBuilder.createSuccessResponse("Employee deleted successfully");
+    }
+
+    private Response handleReadUsers(Request request) {
+        List<User> users = userService.showUsers();
+        List<UserDTO> userDTOS = users.stream().map(UserDTO::new).collect(Collectors.toList());
+        return responseBuilder.createSuccessResponse("List of cars", userDTOS);
     }
 }

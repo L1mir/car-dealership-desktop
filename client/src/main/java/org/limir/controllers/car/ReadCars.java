@@ -7,13 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.limir.controllers.sceneUtility.SceneManager;
+import org.limir.models.CurrentUser;
 import org.limir.models.dto.CarDTO;
 import org.limir.models.entities.Car;
 import org.limir.models.enums.RequestType;
 import org.limir.models.enums.ResponseStatus;
+import org.limir.models.enums.UserRole;
 import org.limir.models.tcp.RequestHandler;
 import org.limir.models.tcp.Response;
 
@@ -42,7 +43,12 @@ public class ReadCars {
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
-        SceneManager.showScene("admin-menu");
+        if (CurrentUser.getUser().getUserRole() == UserRole.ADMIN) {
+            SceneManager.showScene("admin-menu");
+        }
+        else {
+            SceneManager.showScene("customer-menu");
+        }
     }
 
     @FXML

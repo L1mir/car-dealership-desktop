@@ -88,4 +88,23 @@ public class PersonDaoImpl implements PersonDao {
         }
         return person;
     }
+
+    @Override
+    public Person findPersonByName(String name) {
+        Person person = null;
+        try {
+            Session session = HibernateSessionFactory.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Person> cr = cb.createQuery(Person.class);
+            Root<Person> root = cr.from(Person.class);
+            cr.select(root).where(cb.equal(root.get("last_name"), name));
+            person = session.createQuery(cr).getSingleResult();
+            tx.commit();
+            session.close();
+        } catch (NoClassDefFoundError e) {
+            System.out.println("Exception: " + e);
+        }
+        return person;
+    }
 }

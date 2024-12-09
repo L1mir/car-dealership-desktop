@@ -13,6 +13,7 @@ module org.limir.client {
     requires com.google.gson;
     requires java.desktop;
     requires annotations;
+    requires org.apache.pdfbox;
 
     opens org.limir to javafx.fxml;
     opens org.limir.models.entities to  javafx.base, com.google.gson;
@@ -34,6 +35,6 @@ module org.limir.client {
     opens org.limir.controllers.order to javafx.fxml;
     opens org.limir.controllers.diagrams to javafx.fxml;
     opens org.limir.controllers.coupon to javafx.fxml;
-    opens org.limir.controllers.favorite to javafx.fxml;
     opens org.limir.controllers.profile to javafx.fxml;
+    opens org.limir.controllers.employee to javafx.fxml;
 }

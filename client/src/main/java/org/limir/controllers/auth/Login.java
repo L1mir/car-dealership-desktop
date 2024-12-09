@@ -3,6 +3,7 @@ package org.limir.controllers.auth;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -60,10 +61,19 @@ public class Login {
                 return;
             }
         } else {
+            showAlert(Alert.AlertType.ERROR, "Неверные данные!", "Попробуйте еще раз");
             System.out.println("Login failed: " + loginResponse.getResponseStatus());
         }
 
 
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void registerPressed(ActionEvent event) throws IOException {

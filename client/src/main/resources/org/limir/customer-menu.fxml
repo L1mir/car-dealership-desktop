@@ -31,12 +31,12 @@
       <Button fx:id="profileButton" layoutX="480.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleProfileButton" text="Профиль" />
       <VBox layoutX="480.0" layoutY="102.0" prefHeight="372.0" prefWidth="123.0">
          <children>
-            <Button fx:id="favoriteCarsButton" mnemonicParsing="false" onAction="#handleFavoriteCarsButton" prefHeight="70.0" prefWidth="123.0" text="Избранное">
+            <Button fx:id="orderHistoryButton" mnemonicParsing="false" onAction="#handleOrderHistoryButton" prefHeight="66.0" prefWidth="123.0" text="История заказов">
                <font>
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button fx:id="orderHistoryButton" mnemonicParsing="false" onAction="#handleOrderHistoryButton" prefHeight="66.0" prefWidth="123.0" text="История заказов">
+            <Button fx:id="pdfOrderButton" mnemonicParsing="false" onAction="#handlePdfOrderButton" prefHeight="70.0" prefWidth="123.0" text="Заказы(.pdf)">
                <font>
                   <Font size="11.0" />
                </font>
