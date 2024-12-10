@@ -63,7 +63,6 @@ public class CrudCarTest {
         Car car = new Car(null, model, 2020, BigDecimal.valueOf(20000), CarStatus.AVAILABLE, null);
         carDao.addCar(car);
 
-        // Проверяем поиск по модели
         Car foundCar = carDao.findCarByModel(model);
         assertNotNull(foundCar, "Car should be found by model");
         assertEquals(model, foundCar.getModel(), "Car model should match");
@@ -80,7 +79,7 @@ public class CrudCarTest {
         assertTrue(result, "Car should be updated successfully");
 
         Car updatedCar = carDao.findCarById(car.getCar_id());
-        assertEquals(BigDecimal.valueOf(21000), updatedCar.getPrice(), "Car price should be updated");
+        assertEquals(BigDecimal.valueOf(21000).setScale(2), updatedCar.getPrice(), "Car price should be updated");
     }
 
     @Test

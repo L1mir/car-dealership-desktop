@@ -78,6 +78,12 @@ public class RequestProcessor {
                 return handleDeleteEmployee(request);
             case READ_USERS:
                 return handleReadUsers(request);
+            case UPDATE_COMPANY:
+                return handleUpdateCompany(request);
+            case UPDATE_EMPLOYEE:
+                return handleUpdateEmployee(request);
+            case FIND_EMPLOYEE_BY_ID:
+                return handleFindEmployeeById(request);
             default:
                 return responseBuilder.createErrorResponse("Unknown request type");
         }
@@ -287,5 +293,24 @@ public class RequestProcessor {
         List<User> users = userService.showUsers();
         List<UserDTO> userDTOS = users.stream().map(UserDTO::new).collect(Collectors.toList());
         return responseBuilder.createSuccessResponse("List of cars", userDTOS);
+    }
+
+    private Response handleUpdateCompany(Request request) {
+        Company company = RequestDeserializer.deserializeCompany(request);
+        companyService.updateCompany(company);
+        return responseBuilder.createSuccessResponse("Company updated successfully");
+    }
+
+    private Response handleFindEmployeeById(Request request) {
+        Long employeeId = RequestDeserializer.deserializeEmployeeId(request);
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        EmployeeDTO employeeDTO = new EmployeeDTO(employee);
+        return responseBuilder.createSuccessResponse("Employee found success", employeeDTO);
+    }
+
+    private Response handleUpdateEmployee(Request request) {
+        Employee employee = RequestDeserializer.deserializeEmployee(request);
+        employeeService.updateEmployee(employee);
+        return responseBuilder.createSuccessResponse("Employee updated successfully");
     }
 }

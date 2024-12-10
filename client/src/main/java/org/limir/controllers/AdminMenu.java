@@ -134,6 +134,6 @@ public class AdminMenu {
 
     @FXML
     private void handleCompanyGeographicButtonButton(ActionEvent event) {
-        SceneManager.showScene("company-geographic-diagram");
+        SceneManager.showScene("company-email-diagram");
     }
 }

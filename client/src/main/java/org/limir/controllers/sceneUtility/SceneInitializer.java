@@ -21,8 +21,9 @@ public class SceneInitializer {
         SceneManager.addScene("delete-employee", "/org/limir/delete-employee.fxml");
         SceneManager.addScene("read-employees", "/org/limir/read-employees.fxml");
         SceneManager.addScene("delete-company", "/org/limir/delete-company.fxml");
-        SceneManager.addScene("company-geographic-diagram", "/org/limir/company-geographic-diagram.fxml");
+        SceneManager.addScene("company-email-diagram", "/org/limir/company-email-diagram.fxml");
         SceneManager.addScene("car-status-diagram", "/org/limir/car-status-diagram.fxml");
         SceneManager.addScene("user-role-diagram", "/org/limir/user-role-diagram.fxml");
+        SceneManager.addScene("update-company", "/org/limir/update-company.fxml");
     }
 }

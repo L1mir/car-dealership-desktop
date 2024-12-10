@@ -37,7 +37,11 @@ public class CompanyOperations {
                     }
                     break;
                 case "Редактировать компанию":
-                    System.out.println("Редактирование компании...");
+                    try {
+                        updateCompany();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "Удалить компанию":
                     try {
@@ -63,6 +67,10 @@ public class CompanyOperations {
 
     public void deleteCompany() throws IOException {
         SceneManager.showScene("delete-company");
+    }
+
+    public void updateCompany() throws IOException {
+        SceneManager.showScene("update-company");
     }
 
     public void readCompanies() throws IOException {

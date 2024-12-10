@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.diagrams.CompanyGeographic">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.limir.controllers.diagrams.CompanyEmailsDiagram">
    <children>
       <Button fx:id="backButton" layoutX="517.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Назад" />
       <BarChart fx:id="companyBarChart" layoutX="8.0">

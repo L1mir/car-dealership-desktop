@@ -15,6 +15,15 @@ public class EmployeeDTO {
 
     }
 
+    public Employee toEmployee() {
+        Employee employee = new Employee();
+        employee.setEmployee_id(employeeId);
+        employee.setPosition(employeePosition);
+        employee.setSalary(employeeSalary);
+        employee.setSalary(employeeSalary);
+        return employee;
+    }
+
     public EmployeeDTO(Employee employee) {
         this.employeeId = employee.getEmployee_id();
         this.employeePosition = employee.getPosition();

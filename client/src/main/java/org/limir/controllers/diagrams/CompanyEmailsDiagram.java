@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class CompanyGeographic implements Initializable {
+public class CompanyEmailsDiagram implements Initializable {
 
     @FXML
     private Button backButton;
@@ -50,8 +50,8 @@ public class CompanyGeographic implements Initializable {
 
             if (readCompaniesResponse.getResponseStatus() == ResponseStatus.OK) {
                 List<CompanyDTO> companies = new Gson().fromJson(readCompaniesResponse.getResponseData(), new TypeToken<List<CompanyDTO>>() {}.getType());
-                Map<String, Integer> companyCount = calculateCompanyDistribution(companies);
-                buildChart(companyCount);
+                Map<String, Integer> emailStats = calculateEmailStatistics(companies);
+                buildChart(emailStats);
             } else {
                 System.out.println("Error loading companies: " + readCompaniesResponse.getResponseStatus());
             }
@@ -61,27 +61,33 @@ public class CompanyGeographic implements Initializable {
         }
     }
 
-    private Map<String, Integer> calculateCompanyDistribution(List<CompanyDTO> companies) {
-        Map<String, Integer> companyCount = new HashMap<>();
+    private Map<String, Integer> calculateEmailStatistics(List<CompanyDTO> companies) {
+        Map<String, Integer> emailStats = new HashMap<>();
+        emailStats.put("With Email", 0);
+        emailStats.put("Without Email", 0);
 
         for (CompanyDTO company : companies) {
-            String name = company.getName();
-            companyCount.put(name, companyCount.getOrDefault(name, 0) + 1);
+            if (company.getEmail() != null && !company.getEmail().isEmpty()) {
+                emailStats.put("With Email", emailStats.get("With Email") + 1);
+            } else {
+                emailStats.put("Without Email", emailStats.get("Without Email") + 1);
+            }
         }
 
-        return companyCount;
+        return emailStats;
     }
 
-    private void buildChart(Map<String, Integer> companyCount) {
+    private void buildChart(Map<String, Integer> emailStats) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Company Distribution");
+        series.setName("Email Availability");
 
-        for (Map.Entry<String, Integer> entry : companyCount.entrySet()) {
+        for (Map.Entry<String, Integer> entry : emailStats.entrySet()) {
             series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
         }
 
         companyBarChart.getData().clear();
         companyBarChart.getData().add(series);
     }
+
 }
 
